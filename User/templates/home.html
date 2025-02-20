@@ -1,9 +1,65 @@
-<h1>HoopXpert</h1>
-<h2>Will be linked to sign up and login pages</h2>
-
-<form action="/signup">
-    <button type="submit">Sign Up</button>
-  </form>
-  <form action="/login">
-    <button type="submit">Log In</button>
-  </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HoopXpert - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            text-align: center;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1, h2, p {
+            margin-bottom: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HoopXpert</h1>
+        <p>An web app for young basketball athletes, providing personalized, science-backed workout routines to help them improve specific skills efficiently.</p>
+        
+        <div class="btn-container">
+            <form action="/signup">
+                <button type="submit">Sign Up</button>
+            </form>
+            <form action="/login">
+                <button type="submit">Log In</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
