@@ -1,65 +1,112 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HoopXpert - Home</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            flex-direction: column;
-            text-align: center;
-        }
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-        }
-        h1, h2, p {
-            margin-bottom: 15px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        .btn-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HoopXpert - Home</title>
+  <style>
+    /* Evita el desplazamiento vertical */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: url("{% static 'images/home_background.jpg' %}") no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* Capa oscura sobre el fondo */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      padding: 20px;
+    }
+
+    /* Contenedor principal */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Título principal */
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      color: #FFA500;
+    }
+
+    /* Párrafo descriptivo */
+    p {
+      font-size: 1.2em;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    /* Contenedor de botones */
+    .btn-container {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    /* Botones */
+    button {
+      padding: 12px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #FFA500;
+      color: #fff;
+      min-width: 120px;
+    }
+
+    button:hover {
+      background: #e69500;
+    }
+  </style>
 </head>
 <body>
+  <div class="overlay">
     <div class="container">
-        <h1>HoopXpert</h1>
-        <p>An web app for young basketball athletes, providing personalized, science-backed workout routines to help them improve specific skills efficiently.</p>
-        
-        <div class="btn-container">
-            <form action="/signup">
-                <button type="submit">Sign Up</button>
-            </form>
-            <form action="/login">
-                <button type="submit">Log In</button>
-            </form>
-        </div>
-    </div>
+      <h1>HoopXpert</h1>
+      <p>
+        A web application designed to help basketball players enhance their athletic performance.
+        Our service offers personalized monitoring through specialized routines and training programs 
+        tailored to each athlete's individual needs. With a comprehensive approach, HoopXpert provides 
+        tools and guidance to improve technical skills, enhance physical conditioning, and optimize 
+        on-court performance. Our mission is to empower players to reach their full potential and 
+        succeed in their athletic careers.
+      </p>
+
+      <div class="btn-container">
+        <form action="/signup">
+          <button type="submit">Sign Up</button>
+        </form>
+        <form action="/login">
+          <button type="submit">Log In</button>
+        </form>
+      </div>
+    </div> 
+  </div>
 </body>
 </html>

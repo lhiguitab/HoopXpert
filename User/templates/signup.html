@@ -1,75 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HoopXpert - Sign Up</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* Sección izquierda - solo imagen */
+        .left-section {
+            flex: 1;
+            background-color: #d97118; /* naranja */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            overflow: hidden;
+            position: relative;
         }
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
+
+        .left-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        h1, h2 {
-            margin: 0 0 15px;
+
+        /* Sección derecha - signup */
+        .right-section {
+            flex: 1;
+            background-color: #111;
+            color: #fff;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
         }
-        label {
+
+        /* Texto en la esquina superior derecha */
+        .brand {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .signup-box {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .signup-box h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .signup-box label {
             display: block;
-            margin: 10px 0 5px;
+            margin-bottom: 5px;
             font-weight: bold;
         }
-        input {
+
+        .signup-box input,
+        .signup-box select {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: none;
             border-radius: 5px;
+            background-color: #333;
+            color: #fff;
         }
-        button {
+
+        .signup-box input::placeholder {
+            color: #999;
+        }
+
+        .signup-box button {
             width: 100%;
-            padding: 10px;
-            background: #007BFF;
-            color: white;
+            padding: 12px;
+            background-color: #d97118;
+            color: #fff;
+            font-size: 16px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
         }
-        button:hover {
-            background: #0056b3;
+
+        .signup-box button:hover {
+            background-color: #b55a10;
         }
+
+        .error-message {
+            color: #ff4d4f;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>HoopXpert</h1>
-        <h2>Sign Up</h2>
-        <form action="/signup" method="POST">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required>
-            
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            
-            <button type="submit">Sign Up</button>
-        </form>
+
+<div class="container">
+
+    <!-- Sección izquierda solo imagen -->
+    <div class="left-section">
+        <img src="{% static 'images/entrance_background.jpg' %}" alt="HoopXpert">
     </div>
+
+    <!-- Sección derecha -->
+    <div class="right-section">
+        <!-- Texto en la esquina superior derecha -->
+        <div class="brand">HoopXpert</div>
+
+        <div class="signup-box">
+            <h2>Sign Up</h2>
+
+            <form action="/signup/" method="POST">
+                {% csrf_token %}
+
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Full Name" required>
+
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" placeholder="Age" required>
+
+                <label for="height">Height</label>
+                <input type="number" id="height" name="height" step="any" placeholder="Height in m" required>
+
+                <label for="weight">Weight</label>
+                <input type="number" id="weight" name="weight" step="any" placeholder="Weight in kg" required>
+
+                <label for="position">Position</label>
+                <select id="position" name="position" required>
+                    <option value="" disabled selected>Select Position</option>
+                    <option value="Point Guard">Point Guard</option>
+                    <option value="Shooting Guard">Shooting Guard</option>
+                    <option value="Small Forward">Small Forward</option>
+                    <option value="Power Forward">Power Forward</option>
+                    <option value="Center">Center</option>
+                </select>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email Address" required>
+
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+
+                {% if error %}
+                    <div class="error-message">{{ error }}</div>
+                {% endif %}
+
+                <button type="submit">Sign Up</button>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>

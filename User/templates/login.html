@@ -1,69 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HoopXpert - Log In</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* Sección izquierda - solo imagen */
+        .left-section {
+            flex: 1;
+            background-color: #d97118; /* naranja */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            overflow: hidden;
+            position: relative;
         }
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
+
+        .left-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        h1, h2 {
-            margin: 0 0 15px;
+
+        /* Sección derecha - login */
+        .right-section {
+            flex: 1;
+            background-color: #111;
+            color: #fff;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
         }
-        label {
+
+        /* Texto en la esquina superior derecha */
+        .brand {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .login-box label {
             display: block;
-            margin: 10px 0 5px;
+            margin-bottom: 5px;
             font-weight: bold;
         }
-        input {
+
+        .login-box input {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: none;
             border-radius: 5px;
+            background-color: #333;
+            color: #fff;
         }
-        button {
+
+        .login-box input::placeholder {
+            color: #999;
+        }
+
+        .login-box button {
             width: 100%;
-            padding: 10px;
-            background: #007BFF;
-            color: white;
+            padding: 12px;
+            background-color: #d97118;
+            color: #fff;
+            font-size: 16px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
         }
-        button:hover {
-            background: #0056b3;
+
+        .login-box button:hover {
+            background-color: #b55a10;
         }
+
+        .login-box .forgot {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .login-box .forgot a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .login-box .forgot a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #ff4d4f;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>HoopXpert</h1>
-        <h2>Log In</h2>
-        <form action="/login" method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            
-            <button type="submit">Login</button>
-        </form>
+
+<div class="container">
+
+    <!-- Sección izquierda solo imagen -->
+    <div class="left-section">
+        <img src="{% static 'images/entrance_background.jpg' %}" alt="HoopXpert">
     </div>
+
+    <!-- Sección derecha -->
+    <div class="right-section">
+        <!-- Texto en la esquina superior derecha -->
+        <div class="brand">HoopXpert</div>
+
+        <div class="login-box">
+            <h2>Log in</h2>
+
+            <form action="/login/" method="POST">
+                {% csrf_token %}
+
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter Username" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter Password" required>
+
+                {% if error %}
+                    <div class="error-message">{{ error }}</div>
+                {% endif %}
+
+                <button type="submit">Log in</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>
