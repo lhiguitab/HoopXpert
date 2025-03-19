@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Ejercicios</title>
+</head>
+<body>
+    <h1>Lista de Ejercicios</h1>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre del Ejercicio</th>
+                <th>Dificultad</th>
+                <th>Grupo Muscular</th>
+                <th>Video (Short)</th>
+                <th>Video (In-Depth)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exercise in exercises %}
+            <tr>
+                <td>{{ exercise.exercise_name }}</td>
+                <td>{{ exercise.difficulty_level }}</td>
+                <td>{{ exercise.target_muscle_group }}</td> <!-- ESTE ES EL CORRECTO -->
+                <td>{{ exercise.short_youtube_demonstration }}</td>
+                <td>{{ exercise.in_depth_youtube_explanation }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

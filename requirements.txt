@@ -1,0 +1,4 @@
+django
+Pillow
+pandas
+matplotlib
