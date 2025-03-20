@@ -2,65 +2,84 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Workout</title>
+    <title>Generate Workout</title>
 </head>
-<body>
-    <h1>Generate Workout</h1>
-    
-    <!-- Formulario para seleccionar el tipo de entrenamiento -->
-    <form method="post">
-        {% csrf_token %}
-        <label for="workout_type">Select the type of workout:</label>
-        <select name="workout_type" id="workout_type" required>
-            <option value="">-- Select --</option>
-            <option value="Push">Push (Chest, Shoulders, Triceps)</option>
-            <option value="Pull">Pull (Back, Biceps, Forearms, Trapezius)</option>
-            <option value="LegsAbs">Legs & Abs (Legs, Glutes, Core)</option>
-        </select>
-        <button type="submit">Generate Workout</button>
-    </form>
-    
-    <!-- Mostrar el workout generado si existe -->
-    {% if workout_exercises %}
-        <h2>{{ workout_type }} Workout</h2>
-        <ol>
-            {% for exercise in workout_exercises %}
-                <li>
-                    <strong>{{ exercise.exercise_name }}</strong><br>
-                    
-                    <!-- Dificultad -->
-                    <span><strong>Difficulty:</strong> {{ exercise.difficulty_level }}</span><br>
-                    
-                    <!-- Grupo Muscular -->
-                    <span><strong>Target Muscle Group:</strong> {{ exercise.target_muscle_group }}</span><br>
-                    
-                    <!-- Primary Equipment -->
-                    <span><strong>Primary Equipment:</strong> {{ exercise.primary_equipment }}</span>
-                    {% if exercise.num_primary_items %}
-                        (<strong>Qty:</strong> {{ exercise.num_primary_items }})
-                    {% endif %}
-                    <br>
-                    
-                    <!-- Secondary Equipment -->
-                    {% if exercise.secondary_equipment %}
-                        <span><strong>Secondary Equipment:</strong> {{ exercise.secondary_equipment }}</span>
-                        {% if exercise.num_secondary_items %}
-                            (<strong>Qty:</strong> {{ exercise.num_secondary_items }})
+<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 0; padding: 0;">
+
+    <!-- Encabezado -->
+    <header style="background-color: #000; color: #FFA500; text-align: center; padding: 20px;">
+        <h1 style="margin: 0;">🏋️ Generate Workout</h1>
+    </header>
+
+    <main style="max-width: 800px; margin: 40px auto; background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+
+        <!-- Formulario para seleccionar el tipo de entrenamiento -->
+        <form method="post" style="display: flex; flex-direction: column; gap: 20px;">
+            {% csrf_token %}
+            <label for="workout_type" style="font-size: 18px; font-weight: bold; color: #333;">Select the type of workout:</label>
+
+            <select name="workout_type" id="workout_type" required style="padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;">
+                <option value="">-- Select --</option>
+                <option value="Push">Push (Chest, Shoulders, Triceps)</option>
+                <option value="Pull">Pull (Back, Biceps, Forearms, Trapezius)</option>
+                <option value="LegsAbs">Legs & Abs (Legs, Glutes, Core)</option>
+            </select>
+
+            <button type="submit" style="background-color: #FFA500; color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;">
+                Generate Workout
+            </button>
+        </form>
+
+        <!-- Mostrar el workout generado si existe -->
+        {% if workout_exercises %}
+            <h2 style="color: #FFA500; margin-top: 40px;">{{ workout_type }} Workout</h2>
+            
+            <ol style="padding-left: 20px;">
+                {% for exercise in workout_exercises %}
+                    <li style="background-color: #fef3e2; border-left: 5px solid #FFA500; padding: 15px; margin-bottom: 15px; border-radius: 8px;">
+                        
+                        <p style="margin: 0; font-weight: bold; font-size: 18px; color: #333;">{{ exercise.exercise_name }}</p>
+                        
+                        <p style="margin: 5px 0; color: #555;"><strong>Difficulty:</strong> {{ exercise.difficulty_level }}</p>
+                        
+                        <p style="margin: 5px 0; color: #555;"><strong>Target Muscle Group:</strong> {{ exercise.target_muscle_group }}</p>
+                        
+                        <p style="margin: 5px 0; color: #555;">
+                            <strong>Primary Equipment:</strong> {{ exercise.primary_equipment }}
+                            {% if exercise.num_primary_items %}
+                                (<strong>Qty:</strong> {{ exercise.num_primary_items }})
+                            {% endif %}
+                        </p>
+                        
+                        {% if exercise.secondary_equipment %}
+                            <p style="margin: 5px 0; color: #555;">
+                                <strong>Secondary Equipment:</strong> {{ exercise.secondary_equipment }}
+                                {% if exercise.num_secondary_items %}
+                                    (<strong>Qty:</strong> {{ exercise.num_secondary_items }})
+                                {% endif %}
+                            </p>
                         {% endif %}
-                        <br>
-                    {% endif %}
-                    
-                    <!-- Link de demostración si existe -->
-                    {% if exercise.short_youtube_demonstration %}
-                        <a href="{{ exercise.short_youtube_demonstration }}" target="_blank">Video Explanatory</a>
-                    {% endif %}
-                </li>
-                <br>
-            {% endfor %}
-        </ol>
-    {% elif workout_type %}
-        <p>No exercises found for the selected workout type.</p>
-    {% endif %}
-    <a href="/main/">Back to Home</a>
+                        
+                        {% if exercise.short_youtube_demonstration %}
+                            <a href="{{ exercise.short_youtube_demonstration }}" target="_blank" style="color: #FFA500; font-weight: bold; text-decoration: none;">🎥 Video Explanatory</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ol>
+        {% elif workout_type %}
+            <p style="text-align: center; color: #777; margin-top: 30px;">No exercises found for the selected workout type.</p>
+        {% endif %}
+
+        <!-- Botón para volver al inicio -->
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="/main/" style="text-decoration: none; background-color: #000; color: #FFA500; padding: 12px 20px; border-radius: 8px; font-weight: bold;">🏠 Back to Home</a>
+        </div>
+
+    </main>
+
+    <footer style="text-align: center; font-size: 14px; color: #999; margin: 30px 0;">
+        © 2025 HoopXpert. All rights reserved.
+    </footer>
+
 </body>
 </html>
