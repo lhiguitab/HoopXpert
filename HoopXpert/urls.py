@@ -28,4 +28,6 @@ urlpatterns = [
     path('main/', workout_views.main),
     path('workout/', workout_views.exercise),
     path('workout_list/', workout_views.workout_list),
+    path('track_progress/', workout_views.track_progress),
+    path('routine_improvement/', workout_views.routine_improvement),
 ]

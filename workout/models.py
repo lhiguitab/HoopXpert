@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Exercise(models.Model):
     exercise_name = models.CharField(max_length=100)
@@ -50,4 +51,29 @@ class Workouts(models.Model):
     def __str__(self):
         return f"{self.name} - {self.workout_type}"
 
+class WorkoutProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    workout = models.ForeignKey(Workouts, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    sets = models.PositiveIntegerField()
+    reps = models.PositiveIntegerField()
+    weight = models.FloatField()
+    notes = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.exercise.exercise_name} - {self.date}"    
+    
+class RoutineImprovement(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    workout = models.ForeignKey(Workouts, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    minutes_trained = models.PositiveIntegerField()
+    intensity = models.CharField(max_length=10, choices=[('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High')])
+    completed_workout = models.BooleanField()
+    struggled_exercise = models.CharField(max_length=100, blank=True, null=True)
+    difficulty_rating = models.CharField(max_length=20, choices=[('Too easy', 'Too easy'), ('Just right', 'Just right'), ('Too difficult', 'Too difficult')])
+
+    def __str__(self):
+        return f"{self.user.username} - {self.workout.name} - {self.date}"
 # Create your models here.

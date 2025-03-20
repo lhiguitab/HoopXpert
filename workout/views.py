@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from workout.models import Exercise, Workouts
+from workout.models import Exercise, Workouts, WorkoutProgress, RoutineImprovement
+from django.contrib.auth.models import User
 import random
 
 # Create your views here.
@@ -61,3 +62,57 @@ def exercise(request):
 def workout_list(request):
     workouts = Workouts.objects.all()
     return render(request, 'workout_list.html', {'workouts': workouts})
+
+def track_progress(request):
+    if request.method == 'POST':
+        workout_id = request.POST.get('workout')
+        exercise_id = request.POST.get('exercise')
+        sets = request.POST.get('sets')
+        reps = request.POST.get('reps')
+        weight = request.POST.get('weight')
+        notes = request.POST.get('notes', '')
+
+        workout = Workouts.objects.get(id=workout_id)
+        exercise = Exercise.objects.get(id=exercise_id)
+
+        WorkoutProgress.objects.create(
+            user=request.user,
+            workout=workout,
+            exercise=exercise,
+            sets=sets,
+            reps=reps,
+            weight=weight,
+            notes=notes
+        )
+
+        return redirect('track_progress')
+
+    workouts = Workouts.objects.all()
+    exercises = Exercise.objects.all()
+    return render(request, 'track_progress.html', {'workouts': workouts, 'exercises': exercises})
+
+def routine_improvement(request):
+    if request.method == 'POST':
+        workout_id = request.POST.get('workout')
+        minutes_trained = request.POST.get('minutes_trained')
+        intensity = request.POST.get('intensity')
+        completed_workout = request.POST.get('completed_workout') == 'Yes'
+        struggled_exercise = request.POST.get('struggled_exercise', '')
+        difficulty_rating = request.POST.get('difficulty_rating')
+
+        workout = Workouts.objects.get(id=workout_id)
+
+        RoutineImprovement.objects.create(
+            user=request.user,
+            workout=workout,
+            minutes_trained=minutes_trained,
+            intensity=intensity,
+            completed_workout=completed_workout,
+            struggled_exercise=struggled_exercise,
+            difficulty_rating=difficulty_rating
+        )
+
+        return redirect('routine_improvement')
+
+    workouts = Workouts.objects.all()
+    return render(request, 'routine_improvement.html', {'workouts': workouts})

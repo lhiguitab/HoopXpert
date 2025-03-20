@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routine Improvement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        select, input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .radio-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+        .radio-group label {
+            font-weight: normal;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Track Your Routine Improvement</h2>
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="workout">Select Workout:</label>
+            <select id="workout" name="workout">
+                {% for workout in workouts %}
+                    <option value="{{ workout.id }}">{{ workout.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="minutes_trained">How many minutes did you train today?</label>
+            <input type="number" id="minutes_trained" name="minutes_trained" min="1" required>
+
+            <label>How would you rate the intensity of your workout?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="intensity" value="Low"> Low</label>
+                <label><input type="radio" name="intensity" value="Medium"> Medium</label>
+                <label><input type="radio" name="intensity" value="High"> High</label>
+            </div>
+
+            <label>Did you complete the entire workout as planned?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="completed_workout" value="Yes" required> Yes</label>
+                <label><input type="radio" name="completed_workout" value="No"> No</label>
+            </div>
+
+            <label for="struggled_exercise">Did you struggle with any specific drill or exercise?</label>
+            <input type="text" id="struggled_exercise" name="struggled_exercise">
+
+            <label>Was the workout too easy, too difficult, or just right?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="difficulty_rating" value="Too easy"> Too easy</label>
+                <label><input type="radio" name="difficulty_rating" value="Just right"> Just right</label>
+                <label><input type="radio" name="difficulty_rating" value="Too difficult"> Too difficult</label>
+            </div>
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Exercise, Workouts
+from .models import Exercise, Workouts, WorkoutProgress
 
 # Register your models here.
 admin.site.register(Exercise)
@@ -10,3 +10,4 @@ class WorkoutAdmin(admin.ModelAdmin):
 
     def exercises_list(self, obj):
         return ", ".join([exercise.exercise_name for exercise in obj.exercises.all()])
+admin.site.register(WorkoutProgress)

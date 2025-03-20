@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Workout Progress</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Track Your Workout Progress</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <label for="workout">Workout:</label>
+        <select name="workout">
+            {% for workout in workouts %}
+                <option value="{{ workout.id }}">{{ workout.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="exercise">Exercise:</label>
+        <select name="exercise">
+            {% for exercise in exercises %}
+                <option value="{{ exercise.id }}">{{ exercise.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="reps">Repetitions:</label>
+        <input type="number" name="reps" min="1" required>
+
+        <label for="weight">Weight (kg):</label>
+        <input type="number" name="weight" min="0" step="0.1">
+
+        <button type="submit">Save Progress</button>
+    </form>
+
+</body>
+</html>
