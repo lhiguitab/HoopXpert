@@ -4,29 +4,50 @@
     <meta charset="UTF-8">
     <title>HoopXpert Dashboard</title>
 </head>
-<body style="font-family: Arial, sans-serif; background: #f0f4f8; color: #333; margin: 0; padding: 0;">
+<body style="font-family: Arial, sans-serif; background: #000; color: #f5f5f5; margin: 0; padding: 0;">
 
-    <header style="background-color: #eba625; padding: 20px; text-align: center; color: #fff;">
+    <!-- Header -->
+    <header style="background-color: #FFA500; padding: 20px; text-align: center; color: #000;">
         <h1 style="margin: 0;">🏀 Welcome to HoopXpert</h1>
     </header>
 
-    <main style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-        <h2 style="color: #1e3a8a;">¡Bienvenido, {{ username }}!</h2>
+    <!-- Main Content -->
+    <main style="max-width: 600px; margin: 40px auto; background: #1a1a1a; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(255,165,0,0.2);">
+        
+        <h2 style="color: #FFA500;">¡Bienvenido, {{ username }}!</h2>
 
         <nav style="display: flex; flex-direction: column; gap: 15px; margin-top: 30px;">
-            <a href="/workout/" style="text-decoration: none; background: #eba625; color: #fff; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">🏋️ Workout</a>
 
-            <a href="/workout_list/" style="text-decoration: none; background: #eba625; color: #fff; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">📋 Workout History</a>
+            <a href="/workout/"
+               style="text-decoration: none; background: #FFA500; color: #000; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">
+                🏋️ Workout
+            </a>
 
-            <a href="/track_progress/" style="text-decoration: none; background: #eba625; color: #fff; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">📈 Track Progress</a>
+            <a href="/workout_list/"
+               style="text-decoration: none; background: #FFA500; color: #000; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">
+                📋 Workout History
+            </a>
 
-            <a href="/routine_improvement/" style="text-decoration: none; background: #eba625; color: #fff; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">🔧 Routine Improvement</a>
+            <a href="/track_progress/"
+               style="text-decoration: none; background: #FFA500; color: #000; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">
+                📈 Track Progress
+            </a>
 
-            <a href="/logout/" style="text-decoration: none; background: #ef4444; color: #fff; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">🚪 Cerrar sesión</a>
+            <a href="/routine_improvement/"
+               style="text-decoration: none; background: #FFA500; color: #000; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">
+                🔧 Routine Improvement
+            </a>
+
+            <a href="/logout/"
+               style="text-decoration: none; background: #ef4444; color: #fff; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">
+                🚪 Cerrar sesión
+            </a>
         </nav>
+
     </main>
 
-    <footer style="text-align: center; font-size: 14px; color: #888; margin-top: 20px;">
+    <!-- Footer -->
+    <footer style="text-align: center; font-size: 14px; color: #777; margin-top: 20px;">
         © 2025 HoopXpert.
     </footer>
 

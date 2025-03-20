@@ -5,49 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track Your Workout Progress</title>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f9f9f9;">
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #000; color: #f5f5f5;">
 
     <!-- Encabezado -->
-    <header style="background-color: #000; color: #FFA500; text-align: center; padding: 20px 0;">
+    <header style="background-color: #FFA500; color: #000; text-align: center; padding: 20px 0;">
         <h1 style="margin: 0;">📈 Track Your Workout Progress</h1>
     </header>
 
     <!-- Contenido Principal -->
-    <main style="max-width: 600px; margin: 40px auto; background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    <main style="max-width: 600px; margin: 40px auto; background-color: #1a1a1a; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(255,165,0,0.2);">
 
         <h2 style="color: #FFA500; text-align: center;">Log Your Progress</h2>
 
         <form method="post" style="display: flex; flex-direction: column; gap: 20px;">
             {% csrf_token %}
 
+            <!-- Workout Dropdown -->
             <div>
-                <label for="workout" style="font-weight: bold; color: #333;">Workout:</label>
-                <select name="workout" id="workout" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;">
+                <label for="workout" style="font-weight: bold;">Workout:</label>
+                <select name="workout" id="workout" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
                     {% for workout in workouts %}
                         <option value="{{ workout.id }}">{{ workout.name }}</option>
                     {% endfor %}
                 </select>
             </div>
 
+            <!-- Exercise Dropdown -->
             <div>
-                <label for="exercise" style="font-weight: bold; color: #333;">Exercise:</label>
-                <select name="exercise" id="exercise" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;">
+                <label for="exercise" style="font-weight: bold;">Exercise:</label>
+                <select name="exercise" id="exercise" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
                     {% for exercise in exercises %}
                         <option value="{{ exercise.id }}">{{ exercise.name }}</option>
                     {% endfor %}
                 </select>
             </div>
 
+            <!-- Repetitions -->
             <div>
-                <label for="reps" style="font-weight: bold; color: #333;">Repetitions:</label>
-                <input type="number" name="reps" id="reps" min="1" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;">
+                <label for="reps" style="font-weight: bold;">Repetitions:</label>
+                <input type="number" name="reps" id="reps" min="1" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
             </div>
 
+            <!-- Weight -->
             <div>
-                <label for="weight" style="font-weight: bold; color: #333;">Weight (kg):</label>
-                <input type="number" name="weight" id="weight" min="0" step="0.1" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;">
+                <label for="weight" style="font-weight: bold;">Weight (kg):</label>
+                <input type="number" name="weight" id="weight" min="0" step="0.1" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
             </div>
 
+            <!-- Botón -->
             <button type="submit" style="background-color: #FFA500; color: #000; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; border: none; cursor: pointer;">
                 💾 Save Progress
             </button>
@@ -60,7 +65,7 @@
 
     </main>
 
-    <footer style="text-align: center; color: #999; font-size: 14px; margin: 30px 0;">
+    <footer style="text-align: center; color: #777; font-size: 14px; margin: 30px 0;">
         © 2025 HoopXpert.
     </footer>
 
