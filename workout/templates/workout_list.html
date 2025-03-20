@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Workout History</title>
+</head>
+<body>
+    <h1>Workout History</h1>
+
+    {% if workouts %}
+        <ul>
+            {% for workout in workouts %}
+                <li>
+                    <h2>{{ workout.name }} - {{ workout.workout_type }}</h2>
+                    <ul>
+                        {% for exercise in workout.exercises.all %}
+                            <li>
+                                <strong>{{ exercise.exercise_name }}</strong>  
+                                ({{ exercise.difficulty_level }} - {{ exercise.target_muscle_group }})
+                                <br>
+                                Primary Equipment: {{ exercise.primary_equipment }}<br>
+                                {% if exercise.secondary_equipment %}
+                                    Secondary Equipment: {{ exercise.secondary_equipment }}<br>
+                                {% endif %}
+                                {% if exercise.short_youtube_demonstration %}
+                                    <a href="{{ exercise.short_youtube_demonstration }}" target="_blank">Video Explanatory</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <hr>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No workouts have been created yet.</p>
+    {% endif %}
+
+    <a href="/workout/">Generate a New Workout</a>
+    <a href="/main/">Back to Home</a>
+</body>
+</html>

@@ -1,33 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Ejercicios</title>
+    <title>Workout</title>
 </head>
 <body>
-    <h1>Lista de Ejercicios</h1>
+    <h1>Generate Workout</h1>
     
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nombre del Ejercicio</th>
-                <th>Dificultad</th>
-                <th>Grupo Muscular</th>
-                <th>Video (Short)</th>
-                <th>Video (In-Depth)</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for exercise in exercises %}
-            <tr>
-                <td>{{ exercise.exercise_name }}</td>
-                <td>{{ exercise.difficulty_level }}</td>
-                <td>{{ exercise.target_muscle_group }}</td> <!-- ESTE ES EL CORRECTO -->
-                <td>{{ exercise.short_youtube_demonstration }}</td>
-                <td>{{ exercise.in_depth_youtube_explanation }}</td>
-            </tr>
+    <!-- Formulario para seleccionar el tipo de entrenamiento -->
+    <form method="post">
+        {% csrf_token %}
+        <label for="workout_type">Select the type of workout:</label>
+        <select name="workout_type" id="workout_type" required>
+            <option value="">-- Select --</option>
+            <option value="Push">Push (Chest, Shoulders, Triceps)</option>
+            <option value="Pull">Pull (Back, Biceps, Forearms, Trapezius)</option>
+            <option value="LegsAbs">Legs & Abs (Legs, Glutes, Core)</option>
+        </select>
+        <button type="submit">Generate Workout</button>
+    </form>
+    
+    <!-- Mostrar el workout generado si existe -->
+    {% if workout_exercises %}
+        <h2>{{ workout_type }} Workout</h2>
+        <ol>
+            {% for exercise in workout_exercises %}
+                <li>
+                    <strong>{{ exercise.exercise_name }}</strong><br>
+                    
+                    <!-- Dificultad -->
+                    <span><strong>Difficulty:</strong> {{ exercise.difficulty_level }}</span><br>
+                    
+                    <!-- Grupo Muscular -->
+                    <span><strong>Target Muscle Group:</strong> {{ exercise.target_muscle_group }}</span><br>
+                    
+                    <!-- Primary Equipment -->
+                    <span><strong>Primary Equipment:</strong> {{ exercise.primary_equipment }}</span>
+                    {% if exercise.num_primary_items %}
+                        (<strong>Qty:</strong> {{ exercise.num_primary_items }})
+                    {% endif %}
+                    <br>
+                    
+                    <!-- Secondary Equipment -->
+                    {% if exercise.secondary_equipment %}
+                        <span><strong>Secondary Equipment:</strong> {{ exercise.secondary_equipment }}</span>
+                        {% if exercise.num_secondary_items %}
+                            (<strong>Qty:</strong> {{ exercise.num_secondary_items }})
+                        {% endif %}
+                        <br>
+                    {% endif %}
+                    
+                    <!-- Link de demostración si existe -->
+                    {% if exercise.short_youtube_demonstration %}
+                        <a href="{{ exercise.short_youtube_demonstration }}" target="_blank">Video Explanatory</a>
+                    {% endif %}
+                </li>
+                <br>
             {% endfor %}
-        </tbody>
-    </table>
+        </ol>
+    {% elif workout_type %}
+        <p>No exercises found for the selected workout type.</p>
+    {% endif %}
+    <a href="/main/">Back to Home</a>
 </body>
 </html>

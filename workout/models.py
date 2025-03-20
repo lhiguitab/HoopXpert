@@ -35,5 +35,19 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.exercise_name
+    
+class Workouts(models.Model):
+    WORKOUT_TYPES = [
+        ('Push', 'Push'),
+        ('Pull', 'Pull'),
+        ('Legs/Abs', 'Legs & Abs'),
+    ]
+
+    name = models.CharField(max_length=100)  # Puedes generar un nombre tipo "Push Workout 1"
+    workout_type = models.CharField(max_length=20, choices=WORKOUT_TYPES)
+    exercises = models.ManyToManyField(Exercise)
+
+    def __str__(self):
+        return f"{self.name} - {self.workout_type}"
 
 # Create your models here.
