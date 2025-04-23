@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from workout.models import Exercise, Workouts, WorkoutProgress, RoutineImprovement
 from django.contrib.auth.models import User
+from user.models import player  
+from django.contrib import messages
 import random
 
 # Create your views here.
@@ -63,35 +65,76 @@ def workout_list(request):
     workouts = Workouts.objects.all()
     return render(request, 'workout_list.html', {'workouts': workouts})
 
+
 def track_progress(request):
+    player_id = request.session.get('player_id')
+    if not player_id:
+        return redirect('/login/')
+
+    workouts = Workouts.objects.all()
+    exercises = Exercise.objects.none()  # Por defecto vacío
+
+    selected_workout_id = request.GET.get('workout') or request.POST.get('workout')
+    if selected_workout_id:
+        try:
+            selected_workout = Workouts.objects.get(id=selected_workout_id)
+            exercises = selected_workout.exercises.all()
+        except Workouts.DoesNotExist:
+            selected_workout = None
+            exercises = Exercise.objects.none()
+    else:
+        selected_workout = None
+
     if request.method == 'POST':
-        workout_id = request.POST.get('workout')
         exercise_id = request.POST.get('exercise')
-        sets = request.POST.get('sets')
         reps = request.POST.get('reps')
+        sets = request.POST.get('sets')
         weight = request.POST.get('weight')
         notes = request.POST.get('notes', '')
 
-        workout = Workouts.objects.get(id=workout_id)
+        if not all([selected_workout_id, exercise_id, reps, sets, weight]):
+            return render(request, 'track_progress.html', {
+                'workouts': workouts,
+                'exercises': exercises,
+                'error': 'Please fill in all required fields.',
+                'prev_workout': selected_workout_id,
+                'prev_exercise': exercise_id,
+                'prev_reps': reps,
+                'prev_sets': sets,
+                'prev_weight': weight,
+                'prev_notes': notes
+            })
+
+        workout = Workouts.objects.get(id=selected_workout_id)
         exercise = Exercise.objects.get(id=exercise_id)
+        user = player.objects.get(id=player_id)
 
         WorkoutProgress.objects.create(
-            user=request.user,
+            user=user,
             workout=workout,
             exercise=exercise,
-            sets=sets,
             reps=reps,
+            sets=sets,
             weight=weight,
             notes=notes
         )
 
-        return redirect('track_progress')
+        from django.contrib import messages
+        messages.success(request, "✅ Progress saved successfully!")
+        return redirect('/main/')
 
-    workouts = Workouts.objects.all()
-    exercises = Exercise.objects.all()
-    return render(request, 'track_progress.html', {'workouts': workouts, 'exercises': exercises})
+    return render(request, 'track_progress.html', {
+        'workouts': workouts,
+        'exercises': exercises,
+        'prev_workout': selected_workout_id
+    })
+
+
+
 
 def routine_improvement(request):
+    workouts = Workouts.objects.all()
+
     if request.method == 'POST':
         workout_id = request.POST.get('workout')
         minutes_trained = request.POST.get('minutes_trained')
@@ -102,8 +145,17 @@ def routine_improvement(request):
 
         workout = Workouts.objects.get(id=workout_id)
 
+        # Recuperar el usuario desde la sesión
+        player_id = request.session.get('player_id')
+        if not player_id:
+            return redirect('/login/')
+
+        from user.models import player
+        user_instance = player.objects.get(id=player_id)
+
+        # Guardar en base de datos
         RoutineImprovement.objects.create(
-            user=request.user,
+            user=user_instance,
             workout=workout,
             minutes_trained=minutes_trained,
             intensity=intensity,
@@ -112,7 +164,10 @@ def routine_improvement(request):
             difficulty_rating=difficulty_rating
         )
 
-        return redirect('routine_improvement')
+        # Este mensaje se mostrará en el home
+        messages.success(request, '✅ Routine improvement data saved successfully!')
+       
+        # Redirigir al home una vez guardado
+        return redirect('/main/')
 
-    workouts = Workouts.objects.all()
     return render(request, 'routine_improvement.html', {'workouts': workouts})

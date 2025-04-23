@@ -10,7 +10,17 @@
     <header style="background-color: #FFA500; padding: 20px; text-align: center; color: #000;">
         <h1 style="margin: 0;">🏀 Welcome to HoopXpert</h1>
     </header>
-
+    
+    <!-- Flash Message (Success Alert) -->
+    {% if messages %}
+        <div style="margin: 20px auto; text-align: center;">
+            {% for message in messages %}
+                <div style="background-color: #4CAF50; color: white; padding: 12px 20px; border-radius: 8px; display: inline-block; font-weight: bold;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     <!-- Main Content -->
     <main style="max-width: 600px; margin: 40px auto; background: #1a1a1a; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(255,165,0,0.2);">
         

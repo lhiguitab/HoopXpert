@@ -2,63 +2,104 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track Your Workout Progress</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #000; color: #f5f5f5;">
 
     <!-- Encabezado -->
-    <header style="background-color: #FFA500; color: #000; text-align: center; padding: 20px 0;">
+    <header style="background-color: #FFA500; color: #000; text-align: center; padding: 20px;">
         <h1 style="margin: 0;">📈 Track Your Workout Progress</h1>
     </header>
 
-    <!-- Contenido Principal -->
-    <main style="max-width: 600px; margin: 40px auto; background-color: #1a1a1a; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(255,165,0,0.2);">
+    <!-- Mensajes -->
+    {% if messages %}
+    <div style="margin: 20px auto; text-align: center;">
+        {% for message in messages %}
+            <div style="background-color: #4CAF50; color: white; padding: 12px 20px; border-radius: 8px; display: inline-block; font-weight: bold;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Contenedor principal -->
+    <main style="max-width: 600px; margin: 30px auto; background-color: #1a1a1a; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(255,165,0,0.2);">
 
         <h2 style="color: #FFA500; text-align: center;">Log Your Progress</h2>
 
+        <!-- Formulario para seleccionar el workout -->
+        <form method="get" style="margin-bottom: 30px;">
+            <label for="workout" style="font-weight: bold;">Workout:</label>
+            <select name="workout" id="workout" onchange="this.form.submit()" required
+                style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
+                <option value="">-- Select --</option>
+                {% for workout in workouts %}
+                    <option value="{{ workout.id }}" {% if workout.id|stringformat:"s" == prev_workout %}selected{% endif %}>
+                        {{ workout.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+
+        <!-- Formulario para registrar progreso -->
+        {% if exercises %}
         <form method="post" style="display: flex; flex-direction: column; gap: 20px;">
             {% csrf_token %}
 
-            <!-- Workout Dropdown -->
-            <div>
-                <label for="workout" style="font-weight: bold;">Workout:</label>
-                <select name="workout" id="workout" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
-                    {% for workout in workouts %}
-                        <option value="{{ workout.id }}">{{ workout.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            <input type="hidden" name="workout" value="{{ prev_workout }}">
 
             <!-- Exercise Dropdown -->
             <div>
                 <label for="exercise" style="font-weight: bold;">Exercise:</label>
-                <select name="exercise" id="exercise" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
+                <select name="exercise" id="exercise" required
+                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
                     {% for exercise in exercises %}
-                        <option value="{{ exercise.id }}">{{ exercise.name }}</option>
+                        <option value="{{ exercise.id }}">{{ exercise.exercise_name }}</option>
                     {% endfor %}
                 </select>
             </div>
 
-            <!-- Repetitions -->
+            <!-- Sets -->
+            <div>
+                <label for="sets" style="font-weight: bold;">Sets:</label>
+                <input type="number" name="sets" id="sets" min="1" required
+                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
+            </div>
+
+            <!-- Reps -->
             <div>
                 <label for="reps" style="font-weight: bold;">Repetitions:</label>
-                <input type="number" name="reps" id="reps" min="1" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
+                <input type="number" name="reps" id="reps" min="1" required
+                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
             </div>
 
             <!-- Weight -->
             <div>
                 <label for="weight" style="font-weight: bold;">Weight (kg):</label>
-                <input type="number" name="weight" id="weight" min="0" step="0.1" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
+                <input type="number" name="weight" id="weight" min="0" step="0.1"
+                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;">
             </div>
 
-            <!-- Botón -->
-            <button type="submit" style="background-color: #FFA500; color: #000; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; border: none; cursor: pointer;">
+            <!-- Notes -->
+            <div>
+                <label for="notes" style="font-weight: bold;">Notes (optional):</label>
+                <textarea name="notes" id="notes" rows="3"
+                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; font-size: 16px; background-color: #333; color: #f5f5f5;"></textarea>
+            </div>
+
+            <!-- Save Button -->
+            <button type="submit"
+                style="background-color: #FFA500; color: #000; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; border: none; cursor: pointer;">
                 💾 Save Progress
             </button>
         </form>
+        {% else %}
+            <p style="color: #999; text-align: center; margin-top: 20px;">
+                Please select a workout to view available exercises.
+            </p>
+        {% endif %}
 
-        <!-- Enlace de regreso -->
+        <!-- Back to Home -->
         <div style="text-align: center; margin-top: 30px;">
             <a href="/main/" style="text-decoration: none; color: #FFA500; font-weight: bold;">🏠 Back to Home</a>
         </div>

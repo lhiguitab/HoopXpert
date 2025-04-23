@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+from user.models import player
+
 
 class Exercise(models.Model):
     exercise_name = models.CharField(max_length=100)
@@ -52,7 +53,7 @@ class Workouts(models.Model):
         return f"{self.name} - {self.workout_type}"
 
 class WorkoutProgress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(player, on_delete=models.CASCADE)
     workout = models.ForeignKey(Workouts, on_delete=models.CASCADE)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
@@ -65,7 +66,7 @@ class WorkoutProgress(models.Model):
         return f"{self.user.username} - {self.exercise.exercise_name} - {self.date}"    
     
 class RoutineImprovement(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(player, on_delete=models.CASCADE)
     workout = models.ForeignKey(Workouts, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     minutes_trained = models.PositiveIntegerField()
