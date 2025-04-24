@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from workout.models import Exercise, Workouts, WorkoutProgress, RoutineImprovement, BasketballDrill, BasketballWorkout
+from workout.models import Exercise, Workouts, WorkoutProgress, RoutineImprovement, BasketballDrill, BasketballWorkout, RealGameDrill, RealGameDrillWorkout
 from django.contrib.auth.models import User
 from user.models import player  
 from django.contrib import messages
@@ -207,3 +207,41 @@ def basketball_drills(request):
 def drills_list(request):
     drills = BasketballWorkout.objects.all()
     return render(request, 'drills_list.html', {'drills': drills})
+
+def real_game_drills(request):
+    if request.method == 'POST':
+        selected_situation = request.POST.get('scenario')  # 'scenario' es el name del <select>
+        workout_exercises = []
+
+        if selected_situation:
+            drills_qs = RealGameDrill.objects.filter(situation_type__icontains=selected_situation)
+            drills_list = list(drills_qs)
+
+            if drills_list:
+                selected_drills = random.sample(drills_list, min(4, len(drills_list)))
+
+                workout_name = f"{selected_situation.title()} Scenario Drill {RealGameDrillWorkout.objects.filter(situation_type=selected_situation).count() + 1}"
+                workout = RealGameDrillWorkout.objects.create(
+                    name=workout_name,
+                    situation_type=selected_situation  # ✅ este es el campo correcto
+                )
+
+
+                workout.drills.set(selected_drills)
+                workout_exercises = selected_drills
+
+        return render(request, 'real_game_drills_generation.html', {
+            'scenarios': RealGameDrill.objects.values_list('situation_type', flat=True).distinct(),
+            'selected_situation': selected_situation,
+            'workout_exercises': workout_exercises
+        })
+
+    return render(request, 'real_game_drills_generation.html', {
+        'scenarios': RealGameDrill.objects.values_list('situation_type', flat=True).distinct()
+    })
+
+
+def real_game_drills_list(request):
+    workouts = RealGameDrillWorkout.objects.all()
+    return render(request, 'real_game_drills_list.html', {'workouts': workouts})
+

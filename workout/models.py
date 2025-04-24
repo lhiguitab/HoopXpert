@@ -76,7 +76,6 @@ class RoutineImprovement(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.workout.name} - {self.date}"
-# Create your models here.
 
 class BasketballDrill(models.Model):
     exercise_name = models.CharField(max_length=100)
@@ -101,3 +100,35 @@ class BasketballWorkout(models.Model):
 
     def __str__(self):
         return self.name
+
+class RealGameDrill(models.Model):
+    SITUATION_CHOICES = [
+        ('Fast Break', 'Fast Break'),
+        ('Pick and Roll', 'Pick and Roll'),
+        ('Isolation', 'Isolation'),
+        ('Transition Defense', 'Transition Defense'),
+        ('Inbound Plays', 'Inbound Plays'),
+        ('Zone Offense', 'Zone Offense'),
+        ('Zone Defense', 'Zone Defense'),
+        ('Press Break', 'Press Break'),
+        ('End Game', 'End Game'),
+        ('All', 'All Situations')
+    ]
+
+    title = models.CharField(max_length=100)
+    situation_type = models.CharField(max_length=50, choices=SITUATION_CHOICES)
+    description = models.TextField()
+    video_link = models.URLField(max_length=500)
+    duration_min = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.title} ({self.situation_type})"
+
+class RealGameDrillWorkout(models.Model):
+    name = models.CharField(max_length=100)
+    situation_type = models.CharField(max_length=100)  # Ej: 'Fast Break', 'Zone Defense', etc.
+    drills = models.ManyToManyField(RealGameDrill)
+
+    def __str__(self):
+        return self.name
+

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Real Game Drill History{% endblock %}
+{% block content %}
+<h2>📋 Real Game Drill History</h2>
+
+{% if workouts %}
+    {% for workout in workouts %}
+    <div class="card">
+        <h3>{{ workout.name }}</h3>
+        <ul>
+        {% for drill in workout.exercises.all %}
+            <li>
+                <strong>{{ drill.title }}</strong> - {{ drill.duration_min }} min<br>
+                {{ drill.description }}<br>
+                {% if drill.youtube_link %}
+                🎥 <a href="{{ drill.youtube_link }}" target="_blank">Watch</a>
+                {% endif %}
+            </li>
+            <hr>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No real game drill routines found.</p>
+{% endif %}
+
+<a href="/main/" class="btn">🏠 Back to Home</a>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Exercise, Workouts, WorkoutProgress, BasketballDrill, BasketballWorkout
+from .models import Exercise, Workouts, WorkoutProgress, BasketballDrill, BasketballWorkout, RealGameDrill
 
 # Register your models here.
 admin.site.register(Exercise)
@@ -21,3 +21,8 @@ class BasketballDrillAdmin(admin.ModelAdmin):
 class BasketballWorkoutAdmin(admin.ModelAdmin):
     list_display = ('name', 'workout_type')
     filter_horizontal = ('exercises',)
+
+@admin.register(RealGameDrill)
+class RealGameDrillAdmin(admin.ModelAdmin):
+    list_display = ('title', 'situation_type', 'duration_min')
+    search_fields = ('title', 'situation_type')

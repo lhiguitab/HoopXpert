@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Real Game Drills{% endblock %}
+{% block content %}
+<h2>🧠 Generate Real Game Drill Routine</h2>
+
+<form method="POST" style="margin-bottom: 20px;">
+    {% csrf_token %}
+    
+    <label for="scenario"><strong>Select a Game Scenario:</strong></label>
+    <select name="scenario" id="scenario" required class="btn" style="margin-left: 10px; margin-right: 10px;">
+        <option value="">-- Choose a scenario --</option>
+        {% for scenario in scenarios %}
+            <option value="{{ scenario }}" {% if selected_scenario == scenario %}selected{% endif %}>
+                {{ scenario }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn">🎮 Generate Real Game Routine</button>
+</form>
+
+{% if workout_exercises %}
+    <div class="card">
+        <h3>Generated Routine</h3>
+        <ul>
+        {% for drill in workout_exercises %}
+            <li>
+                <strong>{{ drill.title }}</strong><br>
+                {{ drill.description }}<br>
+                ⏱ Duration: {{ drill.duration_min }} min<br>
+                {% if drill.video_link %}
+                🎥 <a href="{{ drill.video_link }}" target="_blank">Watch</a>
+                {% endif %}
+            </li>
+            <hr>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+<a href="/main/" class="btn">🏠 Back to Home</a>
+{% endblock %}

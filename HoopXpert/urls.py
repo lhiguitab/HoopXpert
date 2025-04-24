@@ -32,4 +32,7 @@ urlpatterns = [
     path('routine_improvement/', workout_views.routine_improvement),
     path('basketball_drills/', workout_views.basketball_drills),
     path('drills_list/', workout_views.drills_list),
+    path('real_game_drills/', workout_views.real_game_drills),
+    path('real_game_drills_list/', workout_views.real_game_drills_list),
+
 ]
