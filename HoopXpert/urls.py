@@ -34,5 +34,6 @@ urlpatterns = [
     path('drills_list/', workout_views.drills_list),
     path('real_game_drills/', workout_views.real_game_drills),
     path('real_game_drills_list/', workout_views.real_game_drills_list),
+    path('schedule/', workout_views.schedule),
 
 ]

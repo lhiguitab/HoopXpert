@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from user.models import player  
 from django.contrib import messages
 import random
+from datetime import date, datetime
+import calendar
 
 # Create your views here.
 def main(request):
@@ -245,3 +247,19 @@ def real_game_drills_list(request):
     workouts = RealGameDrillWorkout.objects.all()
     return render(request, 'real_game_drills_list.html', {'workouts': workouts})
 
+def schedule(request, year=None, month=None):
+    today = date.today()
+    year = year or today.year
+    month = month or today.month
+
+    # Matriz de semanas con días del mes (0 si está vacío)
+    cal = calendar.Calendar(firstweekday=0)  # 0 = lunes
+    month_days = cal.monthdayscalendar(year, month)
+
+    context = {
+        'month_days': month_days,
+        'month_name': calendar.month_name[month],
+        'year': year,
+        'month': month,
+    }
+    return render(request, 'schedule.html', context)
