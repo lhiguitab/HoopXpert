@@ -1,65 +1,195 @@
+{% extends "base.html" %}
+{% block title %}HoopXpert Dashboard{% endblock %}
+{% block content %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HoopXpert Dashboard</title>
-</head>
-<body style="font-family: Arial, sans-serif; background: #000; color: #f5f5f5; margin: 0; padding: 0;">
-
-    <!-- Header -->
-    <header style="background-color: #FFA500; padding: 20px; text-align: center; color: #000;">
-        <h1 style="margin: 0;">🏀 Welcome to HoopXpert</h1>
-    </header>
-    
-    <!-- Flash Message (Success Alert) -->
-    {% if messages %}
-        <div style="margin: 20px auto; text-align: center;">
-            {% for message in messages %}
-                <div style="background-color: #4CAF50; color: white; padding: 12px 20px; border-radius: 8px; display: inline-block; font-weight: bold;">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-    <!-- Main Content -->
-    <main style="max-width: 600px; margin: 40px auto; background: #1a1a1a; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(255,165,0,0.2);">
+    <style>
+        :root {
+            --primary-color: #FFA500;
+            --background-light: #fff;
+            --card-background: #f8f8f8;
+            --exercise-background: #fff;
+            --border-color: #e0e0e0;
+            --text-dark: #333;
+            --text-muted: #666;
+            --text-secondary: #777;
+            --success: #4CAF50;
+        }
         
-        <h2 style="color: #FFA500;">¡Bienvenido, {{ username }}!</h2>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: #000;
+            text-align: center;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        
+        main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .dashboard-container {
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .welcome-message {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            animation: fadeIn 0.5s;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-card {
+            background-color: var(--exercise-background);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-title {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .action-button {
+            background-color: var(--primary-color);
+            color: #000;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .action-button:hover {
+            background-color: #FFB52E;
+            transform: translateY(-2px);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 900px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🏀 HoopXpert Dashboard</h1>
+    </header>
 
-        <nav style="display: flex; flex-direction: column; gap: 15px; margin-top: 30px;">
-
-            <a href="/workout/"
-               style="text-decoration: none; background: #FFA500; color: #000; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">
-                🏋️ Workout
-            </a>
-
-            <a href="/workout_list/"
-               style="text-decoration: none; background: #FFA500; color: #000; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">
-                📋 Workout History
-            </a>
-
-            <a href="/track_progress/"
-               style="text-decoration: none; background: #FFA500; color: #000; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">
-                📈 Track Progress
-            </a>
-
-            <a href="/routine_improvement/"
-               style="text-decoration: none; background: #FFA500; color: #000; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">
-                🔧 Routine Improvement
-            </a>
-
-            <a href="/logout/"
-               style="text-decoration: none; background: #ef4444; color: #fff; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold;">
-                🚪 Cerrar sesión
-            </a>
-        </nav>
-
+    <!-- Main Container -->
+    <main>
+        <div class="dashboard-container">
+            <div class="welcome-message">
+                Welcome, {{ username }}!
+            </div>
+            
+            <!-- Stats Section -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Completed Workouts</div>
+                    <div class="stat-value">12</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Weekly Progress</div>
+                    <div class="stat-value">85%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Consecutive Days</div>
+                    <div class="stat-value">5</div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="/track_progress/" class="action-button">📈 View Progress</a>
+                <a href="/workout/" class="action-button">💪 New Workout</a>
+                <a href="#" class="action-button">⚙️ Profile Settings</a>
+            </div>
+        </div>
     </main>
-
-    <!-- Footer -->
-    <footer style="text-align: center; font-size: 14px; color: #777; margin-top: 20px;">
-        © 2025 HoopXpert.
-    </footer>
-
 </body>
 </html>
+{% endblock %}

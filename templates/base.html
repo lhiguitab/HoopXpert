@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}HoopXpert Dashboard{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f5f5f5;
+      --accent: #FFA500;
+      --accent-hover: #e59400;
+      --text-main: #ffffff;
+      --footer-bg: #e0e0e0;
+      --footer-text: #333333;
+    }
+    * { box-sizing: border-box; }
+    body {
+      display: grid;
+      grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+      grid-template-columns: 240px 1fr;
+      grid-template-rows: auto 1fr auto;
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: var(--bg);
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      grid-area: header;
+      background: var(--accent);
+      padding: 4px 16px;
+      display: flex;
+      align-items: center;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo { height: 120px; }
+    header h1 {
+      margin: 0;
+      color: var(--text-main);
+      font-size: 1.25rem;
+    }
+    .sidebar {
+      grid-area: sidebar;
+      background: var(--accent);
+      padding: 16px;
+      overflow-y: auto;
+    }
+    .sidebar nav ul { list-style: none; padding: 0; }
+    .sidebar nav a {
+      display: block;
+      padding: 12px;
+      margin-bottom: 8px;
+      text-decoration: none;
+      color: var(--text-main);
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    .sidebar nav a:hover { background: var(--accent-hover); }
+    main {
+      grid-area: main;
+      padding: 24px;
+      overflow-y: auto;
+      color: #000;
+      background: var(--bg);
+    }
+    .card {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      color: #000;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .btn {
+      display: inline-block;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: var(--text-main);
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    .btn:hover { background: var(--accent-hover); }
+    footer {
+      grid-area: footer;
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      text-align: center;
+      padding: 8px 0;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="/main/">
+      <img src="{% static 'images/Logo_HoopXpert.png' %}" alt="Logo HoopXpert" class="logo">
+      </a>
+      <h1>{{ username|upper }}</h1>
+    </div>
+  </header>
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <li><a href="/workout/">Workouts</a></li>
+        <li><a href="/workout_list/">Workout History</a></li>
+        <li><a href="/track_progress/">Progress</a></li>
+        <li><a href="/routine_improvement/">Workout Improvement</a></li>
+        <li><a href="/logout/">Log Out</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    HoopXpert 2025 – Lucas Higuita – Daniel Arcila
+  </footer>
+</body>
+</html>

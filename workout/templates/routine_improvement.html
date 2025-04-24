@@ -1,100 +1,264 @@
+{% extends "base.html" %}
+{% block content %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Routine Improvement</title>
+    <style>
+        :root {
+            --primary-color: #FFA500;
+            --background-light: #fff;
+            --card-background: #f8f8f8;
+            --exercise-background: #fff;
+            --border-color: #e0e0e0;
+            --text-dark: #333;
+            --text-muted: #666;
+            --text-secondary: #777;
+            --success: #4CAF50;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: #000;
+            text-align: center;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        
+        main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .routine-container {
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+        
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 1rem;
+            background-color: var(--exercise-background);
+            color: var(--text-dark);
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+        
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255,165,0,0.25);
+        }
+        
+        .radio-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        input[type="radio"] {
+            margin: 0;
+            width: 1rem;
+            height: 1rem;
+            accent-color: var(--primary-color);
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: #000;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            width: 100%;
+            max-width: 400px;
+            margin: 2rem auto;
+            display: block;
+        }
+        
+        button:hover {
+            background-color: #FFB52E;
+            transform: translateY(-2px);
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .back-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+        
+        .back-link a:hover {
+            color: #FFB52E;
+        }
+        
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #000; color: #f5f5f5;">
-
-    <!-- Encabezado -->
-    <header style="background-color: #FFA500; color: #000; text-align: center; padding: 20px;">
-        <h1 style="margin: 0;">🔧 Routine Improvement</h1>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🔧 Routine Improvement</h1>
     </header>
 
-    <!-- Contenedor del formulario -->
-    <main style="max-width: 600px; margin: 40px auto; background-color: #1a1a1a; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(255,165,0,0.2);">
+    <!-- Main Container -->
+    <main>
+        <div class="routine-container">
+            <h2>Track Your Routine Improvement</h2>
 
-        <h2 style="color: #FFA500; text-align: center;">Track Your Routine Improvement</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <!-- Select Workout -->
+                    <div class="full-width">
+                        <label for="workout">Select Workout:</label>
+                        <select id="workout" name="workout" required>
+                            {% for workout in workouts %}
+                                <option value="{{ workout.id }}">{{ workout.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-        <form method="POST" style="display: flex; flex-direction: column; gap: 20px;">
-            {% csrf_token %}
+                    <!-- Minutes Trained -->
+                    <div>
+                        <label for="minutes_trained">How many minutes did you train today?</label>
+                        <input type="number" id="minutes_trained" name="minutes_trained" min="1" required>
+                    </div>
 
-            <!-- Select Workout -->
-            <div>
-                <label for="workout" style="font-weight: bold;">Select Workout:</label>
-                <select id="workout" name="workout" required
-                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; background-color: #333; color: #f5f5f5; font-size: 16px;">
-                    {% for workout in workouts %}
-                        <option value="{{ workout.id }}">{{ workout.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+                    <!-- Intensity -->
+                    <div>
+                        <label>How would you rate the intensity of your workout?</label>
+                        <div class="radio-options">
+                            <div class="radio-option">
+                                <input type="radio" id="intensity_low" name="intensity" value="Low">
+                                <label for="intensity_low">Low</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="intensity_medium" name="intensity" value="Medium">
+                                <label for="intensity_medium">Medium</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="intensity_high" name="intensity" value="High">
+                                <label for="intensity_high">High</label>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Minutes Trained -->
-            <div>
-                <label for="minutes_trained" style="font-weight: bold;">How many minutes did you train today?</label>
-                <input type="number" id="minutes_trained" name="minutes_trained" min="1" required
-                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; background-color: #333; color: #f5f5f5; font-size: 16px;">
-            </div>
+                    <!-- Completed Workout -->
+                    <div>
+                        <label>Did you complete the entire workout as planned?</label>
+                        <div class="radio-options">
+                            <div class="radio-option">
+                                <input type="radio" id="completed_yes" name="completed_workout" value="Yes" required>
+                                <label for="completed_yes">Yes</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="completed_no" name="completed_workout" value="No">
+                                <label for="completed_no">No</label>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Intensity -->
-            <div>
-                <label style="font-weight: bold;">How would you rate the intensity of your workout?</label>
-                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-                    <label><input type="radio" name="intensity" value="Low"> Low</label>
-                    <label><input type="radio" name="intensity" value="Medium"> Medium</label>
-                    <label><input type="radio" name="intensity" value="High"> High</label>
+                    <!-- Struggled Exercise -->
+                    <div class="full-width">
+                        <label for="struggled_exercise">Did you struggle with any specific drill or exercise?</label>
+                        <input type="text" id="struggled_exercise" name="struggled_exercise" placeholder="Optional...">
+                    </div>
+
+                    <!-- Difficulty Rating -->
+                    <div class="full-width">
+                        <label>Was the workout too easy, too difficult, or just right?</label>
+                        <div class="radio-options">
+                            <div class="radio-option">
+                                <input type="radio" id="difficulty_easy" name="difficulty_rating" value="Too easy">
+                                <label for="difficulty_easy">Too easy</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="difficulty_right" name="difficulty_rating" value="Just right">
+                                <label for="difficulty_right">Just right</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="difficulty_hard" name="difficulty_rating" value="Too difficult">
+                                <label for="difficulty_hard">Too difficult</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Completed Workout -->
-            <div>
-                <label style="font-weight: bold;">Did you complete the entire workout as planned?</label>
-                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-                    <label><input type="radio" name="completed_workout" value="Yes" required> Yes</label>
-                    <label><input type="radio" name="completed_workout" value="No"> No</label>
-                </div>
-            </div>
-
-            <!-- Struggled Exercise -->
-            <div>
-                <label for="struggled_exercise" style="font-weight: bold;">Did you struggle with any specific drill or exercise?</label>
-                <input type="text" id="struggled_exercise" name="struggled_exercise" placeholder="Optional..."
-                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #FFA500; background-color: #333; color: #f5f5f5; font-size: 16px;">
-            </div>
-
-            <!-- Difficulty Rating -->
-            <div>
-                <label style="font-weight: bold;">Was the workout too easy, too difficult, or just right?</label>
-                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-                    <label><input type="radio" name="difficulty_rating" value="Too easy"> Too easy</label>
-                    <label><input type="radio" name="difficulty_rating" value="Just right"> Just right</label>
-                    <label><input type="radio" name="difficulty_rating" value="Too difficult"> Too difficult</label>
-                </div>
-            </div>
-
-            <!-- Botón Guardar -->
-            <button type="submit"
-                style="background-color: #FFA500; color: #000; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; border: none; cursor: pointer;">
-                💾 Save
-            </button>
-        </form>
-
-        <!-- Botón de regreso -->
-        <div style="text-align: center; margin-top: 30px;">
-            <a href="/main/"
-                style="text-decoration: none; color: #FFA500; font-weight: bold;">
-                🏠 Back to Home
-            </a>
+                <!-- Save Button -->
+                <button type="submit">💾 Save</button>
+            </form>
         </div>
-
     </main>
-
-    <!-- Footer -->
-    <footer style="text-align: center; font-size: 14px; color: #777; margin: 30px 0;">
-        © 2025 HoopXpert.
-    </footer>
-
 </body>
 </html>
+{% endblock %}

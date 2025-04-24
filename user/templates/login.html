@@ -13,18 +13,20 @@
             font-family: 'Arial', sans-serif;
             height: 100vh;
             display: flex;
+            background-color: #fff; /* fondo blanco */
         }
 
         .container {
             display: flex;
             width: 100%;
             height: 100vh;
+            background-color: #fff;
         }
 
         /* Sección izquierda - solo imagen */
         .left-section {
             flex: 1;
-            background-color: #d97118; /* naranja */
+            background-color: #fff; /* fondo blanco */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -41,8 +43,8 @@
         /* Sección derecha - login */
         .right-section {
             flex: 1;
-            background-color: #111;
-            color: #fff;
+            background-color: #fff; /* fondo blanco */
+            color: #000; /* texto oscuro */
             position: relative;
             display: flex;
             justify-content: center;
@@ -57,7 +59,7 @@
             right: 40px;
             font-size: 24px;
             font-weight: bold;
-            color: #fff;
+            color: #000; /* marca oscura */
         }
 
         .login-box {
@@ -68,22 +70,24 @@
         .login-box h2 {
             font-size: 28px;
             margin-bottom: 20px;
+            color: #000;
         }
 
         .login-box label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            color: #000;
         }
 
         .login-box input {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
-            border: none;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: #333;
-            color: #fff;
+            background-color: #f5f5f5; /* input sobre blanco */
+            color: #000;
         }
 
         .login-box input::placeholder {
@@ -93,7 +97,7 @@
         .login-box button {
             width: 100%;
             padding: 12px;
-            background-color: #d97118;
+            background-color: #d97118; /* puedes cambiarlo si lo prefieres más neutro */
             color: #fff;
             font-size: 16px;
             border: none;
@@ -111,7 +115,7 @@
         }
 
         .login-box .forgot a {
-            color: #ccc;
+            color: #666;
             text-decoration: none;
             font-size: 14px;
         }
