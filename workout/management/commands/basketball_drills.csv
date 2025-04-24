@@ -1,0 +1,301 @@
+ExerciseID,ExerciseName,Position,FocusSkill,DurationMin
+1,Reverse Layup Practice,Center,Decision Making,24
+2,Corner 3-Point Shooting,Center,Off-Ball Movement,12
+3,Footwork Drill,Point Guard,Shooting,22
+4,Screen Navigation,Shooting Guard,Post Scoring,17
+5,Off-Ball Movement,Point Guard,One-on-One Scoring,20
+6,Step-Back Jumper,Shooting Guard,Rebounding,10
+7,Reverse Layup Practice,Center,Free Throws,11
+8,Defensive Slide Drill,Center,One-on-One Scoring,24
+9,Pick-and-Roll Shooting,Center,Defense,10
+10,Pick-and-Roll Shooting,Power Forward,Shooting,12
+11,Closeout Drill,Point Guard,Decision Making,14
+12,Catch and Shoot,All,Rebounding,13
+13,Catch and Shoot,Center,Free Throws,23
+14,Euro Step Finishing,All,Rebounding,11
+15,Transition Layups,Center,Post Scoring,27
+16,Isolation Moves,Power Forward,Finishing,22
+17,Spin Move Drill,All,Post Scoring,13
+18,Off-Ball Movement,Shooting Guard,Decision Making,21
+19,Free Throw Routine,Small Forward,Finishing,15
+20,Free Throw Routine,Small Forward,One-on-One Scoring,20
+21,Screen Navigation,Power Forward,Defense,15
+22,Transition Layups,Center,Passing,18
+23,Transition Layups,Shooting Guard,One-on-One Scoring,26
+24,Handoff Drill,Point Guard,Defense,29
+25,Spin Move Drill,Shooting Guard,Off-Ball Movement,16
+26,Footwork Drill,Shooting Guard,Footwork,12
+27,Corner 3-Point Shooting,Small Forward,Passing,24
+28,Step-Back Jumper,Center,Passing,10
+29,Screen Navigation,Point Guard,Dribbling,14
+30,Rebounding Drill,Shooting Guard,Dribbling,17
+31,Closeout Drill,All,Rebounding,14
+32,Post Moves Practice,Small Forward,Rebounding,20
+33,Catch and Shoot,Center,Finishing,18
+34,Corner 3-Point Shooting,Small Forward,Shooting,28
+35,Handoff Drill,Power Forward,Free Throws,14
+36,Rebounding Drill,Point Guard,Post Scoring,10
+37,Handoff Drill,Center,Off-Ball Movement,11
+38,Screen Navigation,Point Guard,Finishing,26
+39,Handoff Drill,Small Forward,Shooting,12
+40,Footwork Drill,Shooting Guard,Decision Making,26
+41,Free Throw Routine,Center,Decision Making,26
+42,Reverse Layup Practice,Point Guard,Rebounding,22
+43,Post Moves Practice,Power Forward,Decision Making,25
+44,Rebounding Drill,Power Forward,Defense,14
+45,Defensive Slide Drill,Small Forward,Post Scoring,13
+46,Free Throw Routine,Point Guard,Free Throws,24
+47,Euro Step Finishing,Point Guard,Defense,29
+48,Closeout Drill,Shooting Guard,Defense,23
+49,Closeout Drill,Shooting Guard,Off-Ball Movement,18
+50,Off-Ball Movement,All,Rebounding,18
+51,Catch and Shoot,Center,Finishing,22
+52,Catch and Shoot,Point Guard,Rebounding,25
+53,Screen Navigation,Power Forward,Defense,21
+54,Post Moves Practice,All,Decision Making,22
+55,Post Moves Practice,Center,Footwork,27
+56,Handoff Drill,Power Forward,Dribbling,22
+57,Isolation Moves,All,Rebounding,16
+58,Transition Layups,Power Forward,Defense,16
+59,Post Moves Practice,Small Forward,Free Throws,29
+60,Footwork Drill,Small Forward,Free Throws,15
+61,Rebounding Drill,Shooting Guard,Finishing,22
+62,Rebounding Drill,Small Forward,Rebounding,13
+63,Rebounding Drill,All,Passing,12
+64,Euro Step Finishing,All,Rebounding,14
+65,Isolation Moves,Shooting Guard,Off-Ball Movement,30
+66,Catch and Shoot,Center,Off-Ball Movement,13
+67,Defensive Slide Drill,Shooting Guard,Shooting,28
+68,Mid-Range Pull-Up,Center,Defense,14
+69,Free Throw Routine,Center,One-on-One Scoring,25
+70,Euro Step Finishing,Center,Rebounding,12
+71,Post Moves Practice,Power Forward,Passing,24
+72,Off-Ball Movement,Small Forward,Dribbling,23
+73,Off-Ball Movement,Center,Post Scoring,21
+74,Isolation Moves,Small Forward,Decision Making,20
+75,Transition Layups,Point Guard,Free Throws,26
+76,Handoff Drill,Power Forward,Defense,12
+77,Euro Step Finishing,Small Forward,Decision Making,27
+78,Ball Handling Drills,Point Guard,Decision Making,16
+79,Handoff Drill,Center,Decision Making,23
+80,Transition Layups,Power Forward,Passing,28
+81,Spin Move Drill,All,Shooting,12
+82,Ball Handling Drills,Point Guard,Finishing,27
+83,Handoff Drill,Small Forward,Post Scoring,28
+84,Screen Navigation,Small Forward,Decision Making,22
+85,Free Throw Routine,All,Dribbling,12
+86,Step-Back Jumper,Point Guard,Passing,12
+87,Step-Back Jumper,Shooting Guard,One-on-One Scoring,17
+88,Step-Back Jumper,Shooting Guard,One-on-One Scoring,11
+89,Reverse Layup Practice,Point Guard,Defense,18
+90,Rebounding Drill,Small Forward,Post Scoring,11
+91,Corner 3-Point Shooting,Center,Footwork,10
+92,Spin Move Drill,Shooting Guard,Defense,28
+93,Free Throw Routine,Point Guard,Dribbling,17
+94,Post Moves Practice,All,Off-Ball Movement,30
+95,Transition Layups,Center,Rebounding,21
+96,Ball Handling Drills,All,Decision Making,10
+97,Defensive Slide Drill,All,Rebounding,23
+98,Reverse Layup Practice,Center,Shooting,23
+99,Free Throw Routine,Power Forward,Defense,29
+100,Closeout Drill,All,Rebounding,11
+101,Free Throw Routine,Center,Shooting,20
+102,Mid-Range Pull-Up,Point Guard,Rebounding,11
+103,Step-Back Jumper,Power Forward,One-on-One Scoring,25
+104,Transition Layups,Center,Post Scoring,12
+105,Free Throw Routine,All,Dribbling,18
+106,Reverse Layup Practice,Small Forward,Finishing,13
+107,Pick-and-Roll Shooting,Shooting Guard,Post Scoring,12
+108,Rebounding Drill,Center,Decision Making,29
+109,Defensive Slide Drill,Small Forward,Passing,15
+110,Free Throw Routine,Power Forward,Dribbling,23
+111,Isolation Moves,Shooting Guard,One-on-One Scoring,27
+112,Rebounding Drill,Shooting Guard,Off-Ball Movement,12
+113,Post Moves Practice,Power Forward,Dribbling,16
+114,Isolation Moves,Shooting Guard,Finishing,14
+115,Off-Ball Movement,Center,Shooting,18
+116,Handoff Drill,Point Guard,Passing,15
+117,Mid-Range Pull-Up,Shooting Guard,Free Throws,26
+118,Footwork Drill,Small Forward,Shooting,16
+119,Step-Back Jumper,Shooting Guard,Decision Making,28
+120,Off-Ball Movement,Shooting Guard,Footwork,30
+121,Footwork Drill,Center,Dribbling,14
+122,Defensive Slide Drill,Shooting Guard,Passing,11
+123,Spin Move Drill,Center,Finishing,29
+124,Corner 3-Point Shooting,Small Forward,Passing,11
+125,Rebounding Drill,Center,Free Throws,17
+126,Post Moves Practice,Shooting Guard,Finishing,20
+127,Free Throw Routine,Shooting Guard,Defense,24
+128,Catch and Shoot,All,Rebounding,21
+129,Free Throw Routine,Center,Footwork,12
+130,Screen Navigation,Point Guard,Decision Making,26
+131,Transition Layups,Center,Decision Making,22
+132,Mid-Range Pull-Up,Power Forward,Dribbling,29
+133,Defensive Slide Drill,Point Guard,Defense,21
+134,Defensive Slide Drill,Shooting Guard,Free Throws,26
+135,Rebounding Drill,Center,Finishing,21
+136,Isolation Moves,Power Forward,Footwork,27
+137,Step-Back Jumper,Center,Defense,30
+138,Corner 3-Point Shooting,Small Forward,Rebounding,26
+139,Off-Ball Movement,All,Shooting,24
+140,Spin Move Drill,Power Forward,Footwork,27
+141,Free Throw Routine,Small Forward,Decision Making,17
+142,Screen Navigation,All,One-on-One Scoring,16
+143,Off-Ball Movement,Shooting Guard,Footwork,13
+144,Catch and Shoot,Center,Decision Making,29
+145,Defensive Slide Drill,All,Shooting,21
+146,Closeout Drill,Power Forward,Footwork,20
+147,Transition Layups,Power Forward,Footwork,29
+148,Euro Step Finishing,All,Off-Ball Movement,24
+149,Defensive Slide Drill,Small Forward,Footwork,28
+150,Corner 3-Point Shooting,All,Rebounding,28
+151,Free Throw Routine,All,One-on-One Scoring,23
+152,Off-Ball Movement,Shooting Guard,One-on-One Scoring,26
+153,Post Moves Practice,Shooting Guard,Footwork,15
+154,Catch and Shoot,Center,Rebounding,29
+155,Rebounding Drill,All,Off-Ball Movement,29
+156,Screen Navigation,Small Forward,Finishing,14
+157,Handoff Drill,Point Guard,Shooting,11
+158,Pick-and-Roll Shooting,All,Rebounding,27
+159,Ball Handling Drills,Center,Free Throws,19
+160,Footwork Drill,Small Forward,Post Scoring,26
+161,Footwork Drill,Power Forward,Shooting,15
+162,Free Throw Routine,Point Guard,Off-Ball Movement,16
+163,Footwork Drill,All,Post Scoring,13
+164,Closeout Drill,Power Forward,Passing,15
+165,Screen Navigation,Center,Shooting,26
+166,Catch and Shoot,Small Forward,Finishing,19
+167,Closeout Drill,Point Guard,Post Scoring,30
+168,Rebounding Drill,Shooting Guard,Rebounding,16
+169,Ball Handling Drills,Point Guard,Defense,21
+170,Post Moves Practice,Power Forward,Shooting,17
+171,Mid-Range Pull-Up,Point Guard,Finishing,29
+172,Closeout Drill,All,Decision Making,14
+173,Pick-and-Roll Shooting,All,Shooting,16
+174,Transition Layups,Power Forward,Footwork,16
+175,Rebounding Drill,Center,Finishing,25
+176,Ball Handling Drills,All,Decision Making,19
+177,Handoff Drill,Small Forward,Free Throws,24
+178,Defensive Slide Drill,Center,Defense,29
+179,Pick-and-Roll Shooting,Point Guard,Post Scoring,10
+180,Catch and Shoot,Shooting Guard,Footwork,12
+181,Free Throw Routine,Shooting Guard,Shooting,15
+182,Handoff Drill,Shooting Guard,Passing,19
+183,Handoff Drill,Shooting Guard,Off-Ball Movement,11
+184,Catch and Shoot,All,Decision Making,22
+185,Off-Ball Movement,Power Forward,Passing,11
+186,Ball Handling Drills,All,Decision Making,19
+187,Transition Layups,Shooting Guard,Post Scoring,30
+188,Off-Ball Movement,Point Guard,Footwork,30
+189,Rebounding Drill,Shooting Guard,Defense,13
+190,Ball Handling Drills,Point Guard,Dribbling,29
+191,Isolation Moves,Shooting Guard,One-on-One Scoring,26
+192,Rebounding Drill,Small Forward,Defense,30
+193,Free Throw Routine,Point Guard,One-on-One Scoring,22
+194,Rebounding Drill,Shooting Guard,Off-Ball Movement,26
+195,Footwork Drill,Point Guard,Post Scoring,15
+196,Rebounding Drill,Small Forward,Decision Making,24
+197,Pick-and-Roll Shooting,Point Guard,Defense,19
+198,Screen Navigation,Center,Dribbling,29
+199,Closeout Drill,Point Guard,One-on-One Scoring,28
+200,Off-Ball Movement,Small Forward,Rebounding,25
+201,Transition Layups,Center,Dribbling,21
+202,Footwork Drill,Power Forward,Defense,20
+203,Screen Navigation,Center,Free Throws,12
+204,Screen Navigation,Small Forward,Footwork,16
+205,Screen Navigation,Shooting Guard,Passing,30
+206,Rebounding Drill,Power Forward,Footwork,20
+207,Euro Step Finishing,Power Forward,Decision Making,22
+208,Step-Back Jumper,Point Guard,Rebounding,30
+209,Corner 3-Point Shooting,Shooting Guard,Post Scoring,13
+210,Catch and Shoot,All,Passing,13
+211,Handoff Drill,All,Finishing,28
+212,Free Throw Routine,Point Guard,Rebounding,17
+213,Spin Move Drill,Center,Shooting,26
+214,Mid-Range Pull-Up,Point Guard,Dribbling,20
+215,Isolation Moves,Power Forward,Post Scoring,19
+216,Free Throw Routine,All,Footwork,29
+217,Step-Back Jumper,Power Forward,Shooting,14
+218,Footwork Drill,Center,Dribbling,24
+219,Defensive Slide Drill,Center,Post Scoring,14
+220,Mid-Range Pull-Up,Small Forward,Finishing,14
+221,Catch and Shoot,Center,Decision Making,27
+222,Footwork Drill,Point Guard,Dribbling,21
+223,Catch and Shoot,Power Forward,Rebounding,25
+224,Free Throw Routine,All,Rebounding,22
+225,Footwork Drill,Point Guard,Footwork,25
+226,Post Moves Practice,Small Forward,Post Scoring,20
+227,Mid-Range Pull-Up,Point Guard,Post Scoring,15
+228,Isolation Moves,Center,Rebounding,13
+229,Rebounding Drill,Center,One-on-One Scoring,20
+230,Corner 3-Point Shooting,Shooting Guard,Footwork,17
+231,Spin Move Drill,Small Forward,Shooting,20
+232,Step-Back Jumper,Shooting Guard,Post Scoring,22
+233,Step-Back Jumper,Point Guard,Dribbling,24
+234,Closeout Drill,Center,Free Throws,24
+235,Catch and Shoot,Shooting Guard,Rebounding,20
+236,Spin Move Drill,All,One-on-One Scoring,30
+237,Closeout Drill,Power Forward,Decision Making,28
+238,Footwork Drill,Point Guard,Finishing,17
+239,Pick-and-Roll Shooting,Power Forward,Off-Ball Movement,26
+240,Ball Handling Drills,Point Guard,Post Scoring,14
+241,Step-Back Jumper,Power Forward,Decision Making,19
+242,Footwork Drill,Point Guard,Rebounding,28
+243,Step-Back Jumper,Shooting Guard,Shooting,16
+244,Step-Back Jumper,Power Forward,One-on-One Scoring,26
+245,Isolation Moves,Center,Decision Making,23
+246,Off-Ball Movement,Point Guard,Shooting,19
+247,Off-Ball Movement,All,Passing,28
+248,Pick-and-Roll Shooting,Point Guard,Finishing,13
+249,Defensive Slide Drill,Shooting Guard,Dribbling,13
+250,Ball Handling Drills,Shooting Guard,Dribbling,25
+251,Spin Move Drill,Small Forward,Dribbling,22
+252,Ball Handling Drills,Shooting Guard,Decision Making,18
+253,Rebounding Drill,Shooting Guard,Free Throws,17
+254,Mid-Range Pull-Up,Power Forward,One-on-One Scoring,29
+255,Mid-Range Pull-Up,Shooting Guard,Decision Making,27
+256,Footwork Drill,Shooting Guard,Free Throws,14
+257,Defensive Slide Drill,Center,Passing,21
+258,Pick-and-Roll Shooting,Small Forward,Dribbling,29
+259,Transition Layups,Power Forward,Defense,21
+260,Post Moves Practice,Small Forward,Finishing,10
+261,Catch and Shoot,Point Guard,Rebounding,17
+262,Ball Handling Drills,Point Guard,Defense,16
+263,Pick-and-Roll Shooting,All,Defense,19
+264,Isolation Moves,Center,Passing,19
+265,Spin Move Drill,Small Forward,Footwork,12
+266,Catch and Shoot,Power Forward,Free Throws,12
+267,Ball Handling Drills,Power Forward,Off-Ball Movement,10
+268,Handoff Drill,Power Forward,Finishing,16
+269,Free Throw Routine,All,Free Throws,19
+270,Free Throw Routine,Small Forward,Footwork,12
+271,Ball Handling Drills,Point Guard,Passing,24
+272,Footwork Drill,All,Post Scoring,12
+273,Spin Move Drill,Point Guard,Passing,11
+274,Defensive Slide Drill,Shooting Guard,Free Throws,16
+275,Handoff Drill,All,Finishing,28
+276,Off-Ball Movement,Small Forward,Footwork,24
+277,Ball Handling Drills,Point Guard,Shooting,17
+278,Euro Step Finishing,All,Decision Making,16
+279,Step-Back Jumper,Point Guard,One-on-One Scoring,26
+280,Transition Layups,Power Forward,Shooting,30
+281,Isolation Moves,Power Forward,Post Scoring,26
+282,Footwork Drill,Power Forward,Post Scoring,30
+283,Post Moves Practice,Shooting Guard,Defense,20
+284,Screen Navigation,All,Post Scoring,19
+285,Step-Back Jumper,All,Off-Ball Movement,12
+286,Post Moves Practice,Center,Rebounding,20
+287,Off-Ball Movement,Center,Defense,19
+288,Footwork Drill,Small Forward,Finishing,21
+289,Rebounding Drill,Small Forward,Passing,23
+290,Spin Move Drill,Small Forward,Passing,28
+291,Ball Handling Drills,Small Forward,Finishing,13
+292,Screen Navigation,Center,Free Throws,12
+293,Closeout Drill,All,Footwork,22
+294,Defensive Slide Drill,All,Post Scoring,11
+295,Footwork Drill,All,Finishing,16
+296,Closeout Drill,Shooting Guard,Dribbling,29
+297,Mid-Range Pull-Up,Center,Rebounding,17
+298,Transition Layups,Point Guard,Dribbling,28
+299,Off-Ball Movement,All,Finishing,27
+300,Defensive Slide Drill,Center,Defense,22

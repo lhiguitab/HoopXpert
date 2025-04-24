@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basketball Drills List</title>
+    <style>
+        :root {
+            --primary-color: #FFA500;
+            --background-light: #fff;
+            --card-background: #f8f8f8;
+            --item-background: #fff;
+            --border-color: #e0e0e0;
+            --text-dark: #333;
+            --text-muted: #666;
+            --text-secondary: #777;
+            --highlight: #4CAF50;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: #000;
+            text-align: center;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .drill-container {
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .drill-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .drill-card {
+            background-color: var(--item-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
+        }
+        .drill-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        .drill-header {
+            background-color: var(--card-background);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .drill-name {
+            margin: 0;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        .drill-info {
+            padding: 1rem 1.5rem;
+        }
+        .drill-info p {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+        }
+        .badge {
+            background-color: var(--highlight);
+            color: #fff;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .equipment {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-dark);
+        }
+        .video-link {
+            margin-top: 1rem;
+        }
+        .video-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            padding: 0.5rem 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .video-link a:hover {
+            background-color: rgba(255,165,0,0.1);
+            transform: translateY(-2px);
+        }
+        .empty-state {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 3rem 0;
+            font-size: 1.1rem;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .btn {
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: #000;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background-color 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn:hover {
+            background-color: #FFB52E;
+            transform: translateY(-2px);
+        }
+        .routine-title {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+        .workout-list {
+            margin-bottom: 2rem;
+        }
+        .workout-item {
+            background-color: var(--item-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .workout-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        .workout-name {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .workout-type {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .drill-list {
+                grid-template-columns: 1fr;
+            }
+            main {padding: 1rem;}
+            .drill-container {padding: 1.5rem;}
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🏀 Basketball Workouts</h1>
+    </header>
+    <main>
+        <div class="drill-container">
+            {% if drills %}
+                <h2 class="routine-title">Your Basketball Workouts</h2>
+                
+                <div class="workout-list">
+                    {% for workout in drills %}
+                        <div class="workout-item">
+                            <h3 class="workout-name">{{ workout.name }}</h3>
+                            <p class="workout-type">Position: <span class="badge">{{ workout.workout_type }}</span></p>
+                            
+                            <ul class="drill-list">
+                                {% for drill in workout.exercises.all %}
+                                    <li class="drill-card">
+                                        <div class="drill-header">
+                                            <h2 class="drill-name">{{ drill.name }}</h2>
+                                        </div>
+                                        <div class="drill-info">
+                                            {% if drill.position %}
+                                                <p>Position: <span class="badge">{{ drill.position }}</span></p>
+                                            {% endif %}
+                                            
+                                            {% if drill.focus_skill %}
+                                                <p>Focus: <span class="badge">{{ drill.focus_skill }}</span></p>
+                                            {% endif %}
+                                            
+                                            {% if drill.duration_min %}
+                                                <p>Duration: <span class="badge">{{ drill.duration_min }} min</span></p>
+                                            {% endif %}
+                                            
+                                            {% if drill.difficulty %}
+                                                <p>Difficulty: <span class="badge">{{ drill.difficulty }}</span></p>
+                                            {% endif %}
+                                            
+                                            {% if drill.equipment %}
+                                                <p class="equipment">🏀 Equipment: <strong>{{ drill.equipment }}</strong></p>
+                                            {% endif %}
+                                            
+                                            {% if drill.video_url %}
+                                                <div class="video-link">
+                                                    <a href="{{ drill.video_url }}" target="_blank">🎥 Video Demonstration</a>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No workouts available. Generate a new routine!</p>
+                </div>
+            {% endif %}
+            
+            <div class="action-buttons">
+                <a href="/basketball_drills/" class="btn">➕ Generate New Routine</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+{% endblock %}

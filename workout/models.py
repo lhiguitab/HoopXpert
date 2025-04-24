@@ -1,7 +1,6 @@
 from django.db import models
 from user.models import player
 
-
 class Exercise(models.Model):
     exercise_name = models.CharField(max_length=100)
     short_youtube_demonstration = models.URLField(max_length=500, blank=True)
@@ -78,3 +77,27 @@ class RoutineImprovement(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.workout.name} - {self.date}"
 # Create your models here.
+
+class BasketballDrill(models.Model):
+    exercise_name = models.CharField(max_length=100)
+    position = models.CharField(max_length=50, choices=[
+        ('Point Guard', 'Point Guard'),
+        ('Shooting Guard', 'Shooting Guard'),
+        ('Small Forward', 'Small Forward'),
+        ('Power Forward', 'Power Forward'),
+        ('Center', 'Center'),
+        ('All', 'All Positions')
+    ])
+    focus_skill = models.CharField(max_length=100)
+    duration_min = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.exercise_name} ({self.position})"
+    
+class BasketballWorkout(models.Model):
+    name = models.CharField(max_length=100)
+    workout_type = models.CharField(max_length=50)  # Esto almacena la posición usada
+    exercises = models.ManyToManyField(BasketballDrill)
+
+    def __str__(self):
+        return self.name

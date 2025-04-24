@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block title %}Basketball Drills Generator{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basketball Drills Generator</title>
+    <style>
+        :root {
+            --primary-color: #FFA500;
+            --background-light: #fff;
+            --card-background: #f8f8f8;
+            --exercise-background: #fff;
+            --border-color: #e0e0e0;
+            --text-dark: #333;
+            --text-muted: #666;
+            --text-secondary: #777;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: #000;
+            text-align: center;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0;
+        }
+        
+        .workout-container {
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+        
+        form {
+            margin-bottom: 2.5rem;
+        }
+        
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+        
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 1rem;
+            background-color: var(--exercise-background);
+            color: var(--text-dark);
+            transition: border 0.3s, box-shadow 0.3s;
+            margin-bottom: 1.5rem;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255,165,0,0.25);
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: #000;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            display: block;
+            margin: 0 auto;
+            width: auto;
+            min-width: 200px;
+        }
+        
+        button:hover {
+            background-color: #FFB52E;
+            transform: translateY(-2px);
+        }
+        
+        .exercise-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .exercise-card {
+            background-color: var(--exercise-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .drill-name {
+            margin: 0;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .drill-info {
+            margin: 0.5rem 0;
+            color: var(--text-muted);
+        }
+        
+        .badge {
+            background-color: #f0f0f0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 2rem 0;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            main {
+                padding: 1rem;
+            }
+            
+            .workout-container {
+                padding: 1.5rem;
+            }
+            
+            .exercise-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🏀 Basketball Drills Generator</h1>
+    </header>
+
+    <!-- Main Container -->
+    <main>
+        <div class="workout-container">
+            <h2>Create Your Drill Routine</h2>
+
+            <!-- Drill Selection Form -->
+            <form method="post" action="/basketball_drills/">
+                {% csrf_token %}
+                <label for="position">Select Player Position:</label>
+                
+                <select name="position" id="position" required>
+                    <option value="">-- Select --</option>
+                    <option value="Point Guard">Point Guard</option>
+                    <option value="Shooting Guard">Shooting Guard</option>
+                    <option value="Small Forward">Small Forward</option>
+                    <option value="Power Forward">Power Forward</option>
+                    <option value="Center">Center</option>
+                    <option value="All">All Positions</option>
+                </select>
+
+                <button type="submit">➕ Generate Drills</button>
+            </form>
+
+            <!-- Generated Drills Display -->
+            {% if workout_exercises %}
+                <h2>{{ position }} Drills Routine</h2>
+
+                <ul class="exercise-list">
+                    {% for drill in workout_exercises %}
+                        <li class="exercise-card">
+                            <h3 class="drill-name">{{ drill.exercise_name }}</h3>
+                            
+                            <p class="drill-info">
+                                <span class="badge">{{ drill.focus_skill }}</span>
+                                <span class="badge">{{ drill.duration_min }} min</span>
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            {% elif position %}
+                <div class="empty-state">
+                    <p>No drills found for the selected position.</p>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
+{% endblock %}

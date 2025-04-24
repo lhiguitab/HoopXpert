@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from workout.models import Exercise, Workouts, WorkoutProgress, RoutineImprovement
+from workout.models import Exercise, Workouts, WorkoutProgress, RoutineImprovement, BasketballDrill, BasketballWorkout
 from django.contrib.auth.models import User
 from user.models import player  
 from django.contrib import messages
@@ -171,3 +171,39 @@ def routine_improvement(request):
         return redirect('/main/')
 
     return render(request, 'routine_improvement.html', {'workouts': workouts})
+
+def basketball_drills(request):
+    if request.method == 'POST':
+        selected_position = request.POST.get('position')
+        workout_exercises = []
+
+        if selected_position:
+            # Filtra drills según la posición seleccionada
+            drills_qs = BasketballDrill.objects.filter(position__in=[selected_position, 'All'])
+            drills_list = list(drills_qs)
+
+            if drills_list:
+                num_exercises = random.randint(3, 4)
+                selected_drills = random.sample(drills_list, min(num_exercises, len(drills_list)))
+
+                # Crear un nombre dinámico para la rutina
+                workout_name = f"{selected_position} Drill Routine {BasketballWorkout.objects.filter(workout_type=selected_position).count() + 1}"
+                workout = BasketballWorkout.objects.create(
+                    name=workout_name,
+                    workout_type=selected_position
+                )
+
+                workout.exercises.set(selected_drills)
+                workout_exercises = selected_drills
+
+        context = {
+            'position': selected_position,
+            'workout_exercises': workout_exercises,
+        }
+        return render(request, 'drills_generation.html', context)
+
+    return render(request, 'drills_generation.html')
+
+def drills_list(request):
+    drills = BasketballWorkout.objects.all()
+    return render(request, 'drills_list.html', {'drills': drills})

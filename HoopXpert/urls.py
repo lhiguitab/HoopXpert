@@ -30,4 +30,6 @@ urlpatterns = [
     path('workout_list/', workout_views.workout_list),
     path('track_progress/', workout_views.track_progress),
     path('routine_improvement/', workout_views.routine_improvement),
+    path('basketball_drills/', workout_views.basketball_drills),
+    path('drills_list/', workout_views.drills_list),
 ]
