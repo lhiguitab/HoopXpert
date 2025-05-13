@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from user import views as user_views
 from workout import views as workout_views
+from workout.views import progress_dashboard
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,5 +36,8 @@ urlpatterns = [
     path('real_game_drills/', workout_views.real_game_drills),
     path('real_game_drills_list/', workout_views.real_game_drills_list),
     path('schedule/', workout_views.schedule),
+    path('progress_dashboard/', progress_dashboard, name='progress_dashboard'),
+
+
 
 ]

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Progress Dashboard{% endblock %}
+{% block content %}
+
+<h2>📊 Progress Dashboard</h2>
+
+<!-- General Stats -->
+<div class="card">
+  <h3>📌 General Stats</h3>
+
+  <div style="margin-bottom: 16px;">
+    <strong>Total Completed Workouts:</strong> {{ total_workouts }}
+    <div style="background: #eee; height: 20px; width: 100%; border-radius: 8px; overflow: hidden;">
+      <div style="background: #FF9800; height: 100%; width: {{ total_workouts|default:0|stringformat:'d' }}0%;"></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 16px;">
+    <strong>Average Weight Lifted:</strong> {{ avg_weight|floatformat:2 }} kg
+    <div style="background: #eee; height: 20px; width: 100%; border-radius: 8px; overflow: hidden;">
+      <div style="background: #FF9800; height: 100%; width: {{ avg_weight|default:0|floatformat:0 }}%;"></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 16px;">
+    <strong>Maximum Weight Lifted:</strong> {{ max_weight|floatformat:2 }} kg
+    <div style="background: #eee; height: 20px; width: 100%; border-radius: 8px; overflow: hidden;">
+      <div style="background: #FF9800; height: 100%; width: {{ max_weight|default:0|floatformat:0 }}%;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Activity in the Last 7 Days -->
+<div class="card">
+  <h3>📅 Activity in the Last 7 Days</h3>
+  {% for day in last_week_progress %}
+    <strong>{{ day.weekday }} ({{ day.date }})</strong>: {{ day.total }} entries
+    <div style="background: #ddd; height: 18px; width: 100%; margin: 5px 0; border-radius: 6px;">
+      <div style="background: #2196F3; height: 100%; width: {{ day.total|default:0|stringformat:'d' }}0%; border-radius: 6px;"></div>
+    </div>
+  {% empty %}
+    <p>No data for the last 7 days.</p>
+  {% endfor %}
+</div>
+
+<!-- Average Weight per Day -->
+<div class="card">
+  <h3>🏋️ Average Weight per Day</h3>
+  {% for day in last_week_progress %}
+    <strong>{{ day.weekday }} ({{ day.date }})</strong>: {{ day.avg_weight|default:0|floatformat:2 }} kg
+    <div style="background: #ddd; height: 18px; width: 100%; margin: 5px 0; border-radius: 6px;">
+      <div style="background: #F57C00; height: 100%; width: {{ day.avg_weight|default:0|floatformat:0 }}%; border-radius: 6px;"></div>
+    </div>
+  {% empty %}
+    <p>No weight data found.</p>
+  {% endfor %}
+</div>
+
+<a href="/main/" class="btn">🏠 Back to Home</a>
+
+{% endblock %}

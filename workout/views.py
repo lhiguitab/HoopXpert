@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from user.models import player  
 from django.contrib import messages
 import random
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
+from django.db.models import Avg, Max, Count
 import calendar
 
 # Create your views here.
@@ -263,3 +264,40 @@ def schedule(request, year=None, month=None):
         'month': month,
     }
     return render(request, 'schedule.html', context)
+
+def progress_dashboard(request):
+    player_id = request.session.get('player_id')
+    if not player_id:
+        return redirect('/login/')
+
+    user = player.objects.get(id=player_id)
+
+    # Total de registros
+    total_workouts = WorkoutProgress.objects.filter(user=user).count()
+
+    # Promedio y máximo peso levantado
+    avg_weight = WorkoutProgress.objects.filter(user=user).aggregate(Avg('weight'))['weight__avg'] or 0
+    max_weight = WorkoutProgress.objects.filter(user=user).aggregate(Max('weight'))['weight__max'] or 0
+
+    # Últimos 7 días de actividad
+    today = datetime.today().date()
+    last_7_days = [today - timedelta(days=i) for i in range(6, -1, -1)]
+
+    last_week_progress = []
+    for day in last_7_days:
+        entries = WorkoutProgress.objects.filter(user=user, date=day)
+        total_entries = entries.count()
+        avg_weight_day = entries.aggregate(Avg('weight'))['weight__avg'] or 0
+        last_week_progress.append({
+            'weekday': day.strftime('%a'),  # Lunes = Mon, etc.
+            'date': day.strftime('%Y-%m-%d'),  # Fecha completa
+            'total': total_entries,
+            'avg_weight': avg_weight_day
+        })
+
+    return render(request, 'progress_dashboard.html', {
+        'total_workouts': total_workouts,
+        'avg_weight': avg_weight,
+        'max_weight': max_weight,
+        'last_week_progress': last_week_progress
+    })
