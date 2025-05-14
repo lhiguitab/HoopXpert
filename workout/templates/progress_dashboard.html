@@ -1,61 +1,207 @@
 {% extends 'base.html' %}
+
 {% block title %}Progress Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+  .progress-header {
+    margin-bottom: 2rem;
+  }
+  
+  .stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .stat-card {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .stat-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .stat-item {
+    margin-bottom: 1.25rem;
+  }
+  
+  .stat-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-name {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+  
+  .stat-value {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  
+  .progress-bar-container {
+    height: 0.75rem;
+    background-color: var(--background);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.5s ease;
+  }
+  
+  .progress-bar-primary {
+    background-color: var(--primary);
+  }
+  
+  .progress-bar-secondary {
+    background-color: var(--secondary);
+  }
+  
+  .progress-bar-success {
+    background-color: #28a745;
+  }
+  
+  .progress-bar-info {
+    background-color: #17a2b8;
+  }
+  
+  .day-activity {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .day-name {
+    width: 100px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+  
+  .day-progress {
+    flex: 1;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
+<div class="progress-header">
+  <h2 class="text-center fw-bold fs-lg mb-3">
+    <i class="fas fa-chart-line text-primary"></i> Progress Dashboard
+  </h2>
+  <p class="text-center text-muted mb-4">Track your basketball training progress and performance metrics</p>
+</div>
 
-<h2>📊 Progress Dashboard</h2>
-
-<!-- General Stats -->
-<div class="card">
-  <h3>📌 General Stats</h3>
-
-  <div style="margin-bottom: 16px;">
-    <strong>Total Completed Workouts:</strong> {{ total_workouts }}
-    <div style="background: #eee; height: 20px; width: 100%; border-radius: 8px; overflow: hidden;">
-      <div style="background: #FF9800; height: 100%; width: {{ total_workouts|default:0|stringformat:'d' }}0%;"></div>
+<div class="stats-container">
+  <!-- General Stats -->
+  <div class="stat-card">
+    <h3 class="stat-title">
+      <i class="fas fa-thumbtack"></i> General Stats
+    </h3>
+    
+    <div class="stat-item">
+      <div class="stat-label">
+        <span class="stat-name">Total Completed Workouts</span>
+        <span class="stat-value">{{ total_workouts }}</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar progress-bar-primary" style="width: {{ total_workouts|default:0|stringformat:'d' }}0%;"></div>
+      </div>
+    </div>
+    
+    <div class="stat-item">
+      <div class="stat-label">
+        <span class="stat-name">Average Weight Lifted</span>
+        <span class="stat-value">{{ avg_weight|floatformat:2 }} kg</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar progress-bar-primary" style="width: {{ avg_weight|default:0|floatformat:0 }}%;"></div>
+      </div>
+    </div>
+    
+    <div class="stat-item">
+      <div class="stat-label">
+        <span class="stat-name">Maximum Weight Lifted</span>
+        <span class="stat-value">{{ max_weight|floatformat:2 }} kg</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar progress-bar-primary" style="width: {{ max_weight|default:0|floatformat:0 }}%;"></div>
+      </div>
     </div>
   </div>
-
-  <div style="margin-bottom: 16px;">
-    <strong>Average Weight Lifted:</strong> {{ avg_weight|floatformat:2 }} kg
-    <div style="background: #eee; height: 20px; width: 100%; border-radius: 8px; overflow: hidden;">
-      <div style="background: #FF9800; height: 100%; width: {{ avg_weight|default:0|floatformat:0 }}%;"></div>
-    </div>
+  
+  <!-- Activity in the Last 7 Days -->
+  <div class="stat-card">
+    <h3 class="stat-title">
+      <i class="fas fa-calendar-alt"></i> Activity in the Last 7 Days
+    </h3>
+    
+    {% for day in last_week_progress %}
+      <div class="day-activity">
+        <div class="day-name">{{ day.weekday }} ({{ day.date }})</div>
+        <div class="day-progress">
+          <div class="stat-label">
+            <span class="stat-value">{{ day.total }} entries</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar progress-bar-info" style="width: {{ day.total|default:0|stringformat:'d' }}0%;"></div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted">No data for the last 7 days.</p>
+    {% endfor %}
   </div>
-
-  <div style="margin-bottom: 16px;">
-    <strong>Maximum Weight Lifted:</strong> {{ max_weight|floatformat:2 }} kg
-    <div style="background: #eee; height: 20px; width: 100%; border-radius: 8px; overflow: hidden;">
-      <div style="background: #FF9800; height: 100%; width: {{ max_weight|default:0|floatformat:0 }}%;"></div>
-    </div>
+  
+  <!-- Average Weight per Day -->
+  <div class="stat-card">
+    <h3 class="stat-title">
+      <i class="fas fa-dumbbell"></i> Average Weight per Day
+    </h3>
+    
+    {% for day in last_week_progress %}
+      <div class="day-activity">
+        <div class="day-name">{{ day.weekday }} ({{ day.date }})</div>
+        <div class="day-progress">
+          <div class="stat-label">
+            <span class="stat-value">{{ day.avg_weight|default:0|floatformat:2 }} kg</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar progress-bar-success" style="width: {{ day.avg_weight|default:0|floatformat:0 }}%;"></div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted">No weight data found.</p>
+    {% endfor %}
   </div>
 </div>
 
-<!-- Activity in the Last 7 Days -->
-<div class="card">
-  <h3>📅 Activity in the Last 7 Days</h3>
-  {% for day in last_week_progress %}
-    <strong>{{ day.weekday }} ({{ day.date }})</strong>: {{ day.total }} entries
-    <div style="background: #ddd; height: 18px; width: 100%; margin: 5px 0; border-radius: 6px;">
-      <div style="background: #2196F3; height: 100%; width: {{ day.total|default:0|stringformat:'d' }}0%; border-radius: 6px;"></div>
-    </div>
-  {% empty %}
-    <p>No data for the last 7 days.</p>
-  {% endfor %}
+<div class="d-flex justify-content-center mt-4">
+  <a href="/main/" class="btn">
+    <i class="fas fa-home"></i> Back to Home
+  </a>
 </div>
-
-<!-- Average Weight per Day -->
-<div class="card">
-  <h3>🏋️ Average Weight per Day</h3>
-  {% for day in last_week_progress %}
-    <strong>{{ day.weekday }} ({{ day.date }})</strong>: {{ day.avg_weight|default:0|floatformat:2 }} kg
-    <div style="background: #ddd; height: 18px; width: 100%; margin: 5px 0; border-radius: 6px;">
-      <div style="background: #F57C00; height: 100%; width: {{ day.avg_weight|default:0|floatformat:0 }}%; border-radius: 6px;"></div>
-    </div>
-  {% empty %}
-    <p>No weight data found.</p>
-  {% endfor %}
-</div>
-
-<a href="/main/" class="btn">🏠 Back to Home</a>
-
 {% endblock %}

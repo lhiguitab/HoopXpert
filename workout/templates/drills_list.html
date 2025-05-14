@@ -1,263 +1,333 @@
 {% extends "base.html" %}
+
+{% block title %}Basketball Drills List{% endblock %}
+
+{% block extra_css %}
+<style>
+  .drills-header {
+    margin-bottom: 2rem;
+  }
+  
+  .workout-container {
+    margin-bottom: 2rem;
+  }
+  
+  .workout-card {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    transition: var(--transition);
+  }
+  
+  .workout-card:hover {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .workout-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .workout-header-left {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .workout-name {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .workout-type {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    margin-top: 0.5rem;
+  }
+  
+  .workout-toggle {
+    font-size: 1.25rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .workout-toggle.active {
+    transform: rotate(180deg);
+  }
+  
+  .workout-content {
+    padding: 1.5rem;
+    display: none;
+  }
+  
+  .workout-content.active {
+    display: block;
+  }
+  
+  .drills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .drill-card {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: var(--transition);
+    height: 100%;
+  }
+  
+  .drill-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+  }
+  
+  .drill-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    background-color: rgba(255, 136, 0, 0.05);
+  }
+  
+  .drill-name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary);
+  }
+  
+  .drill-content {
+    padding: 1rem;
+  }
+  
+  .drill-info {
+    margin-bottom: 0.5rem;
+  }
+  
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: rgba(255, 136, 0, 0.1);
+    color: var(--primary);
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .equipment {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+  
+  .video-link {
+    margin-top: 1rem;
+  }
+  
+  .video-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: rgba(255, 136, 0, 0.1);
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  
+  .video-link a:hover {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+  
+  .empty-state-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  .empty-state-text {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Animación para desplegar */
+  .workout-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+  }
+  
+  .workout-content.active {
+    max-height: 2000px; /* Valor alto para asegurar que todo el contenido se muestre */
+    display: block;
+  }
+  
+  @media (max-width: 768px) {
+    .drills-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basketball Drills List</title>
-    <style>
-        :root {
-            --primary-color: #FFA500;
-            --background-light: #fff;
-            --card-background: #f8f8f8;
-            --item-background: #fff;
-            --border-color: #e0e0e0;
-            --text-dark: #333;
-            --text-muted: #666;
-            --text-secondary: #777;
-            --highlight: #4CAF50;
-        }
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--background-light);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        header {
-            background-color: var(--primary-color);
-            color: #000;
-            text-align: center;
-            padding: 1.5rem 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.2rem;
-        }
-        main {
-            width: 100%;
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .drill-container {
-            background-color: var(--card-background);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .drill-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .drill-card {
-            background-color: var(--item-background);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-            height: 100%;
-        }
-        .drill-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-        }
-        .drill-header {
-            background-color: var(--card-background);
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .drill-name {
-            margin: 0;
-            font-size: 1.3rem;
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-        .drill-info {
-            padding: 1rem 1.5rem;
-        }
-        .drill-info p {
-            margin: 0.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-        }
-        .badge {
-            background-color: var(--highlight);
-            color: #fff;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-        }
-        .equipment {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-dark);
-        }
-        .video-link {
-            margin-top: 1rem;
-        }
-        .video-link a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-            border: 1px solid var(--primary-color);
-            border-radius: 4px;
-            padding: 0.5rem 0.75rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: background-color 0.2s, transform 0.2s;
-        }
-        .video-link a:hover {
-            background-color: rgba(255,165,0,0.1);
-            transform: translateY(-2px);
-        }
-        .empty-state {
-            text-align: center;
-            color: var(--text-secondary);
-            padding: 3rem 0;
-            font-size: 1.1rem;
-        }
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-        .btn {
-            text-decoration: none;
-            background-color: var(--primary-color);
-            color: #000;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: background-color 0.2s, transform 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .btn:hover {
-            background-color: #FFB52E;
-            transform: translateY(-2px);
-        }
-        .routine-title {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 2rem;
-            font-size: 1.8rem;
-        }
-        .workout-list {
-            margin-bottom: 2rem;
-        }
-        .workout-item {
-            background-color: var(--item-background);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .workout-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-        }
-        .workout-name {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        .workout-type {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-        @media (max-width: 768px) {
-            .drill-list {
-                grid-template-columns: 1fr;
-            }
-            main {padding: 1rem;}
-            .drill-container {padding: 1.5rem;}
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>🏀 Basketball Workouts</h1>
-    </header>
-    <main>
-        <div class="drill-container">
-            {% if drills %}
-                <h2 class="routine-title">Your Basketball Workouts</h2>
-                
-                <div class="workout-list">
-                    {% for workout in drills %}
-                        <div class="workout-item">
-                            <h3 class="workout-name">{{ workout.name }}</h3>
-                            <p class="workout-type">Position: <span class="badge">{{ workout.workout_type }}</span></p>
-                            
-                            <ul class="drill-list">
-                                {% for drill in workout.exercises.all %}
-                                    <li class="drill-card">
-                                        <div class="drill-header">
-                                            <h2 class="drill-name">{{ drill.name }}</h2>
-                                        </div>
-                                        <div class="drill-info">
-                                            {% if drill.position %}
-                                                <p>Position: <span class="badge">{{ drill.position }}</span></p>
-                                            {% endif %}
-                                            
-                                            {% if drill.focus_skill %}
-                                                <p>Focus: <span class="badge">{{ drill.focus_skill }}</span></p>
-                                            {% endif %}
-                                            
-                                            {% if drill.duration_min %}
-                                                <p>Duration: <span class="badge">{{ drill.duration_min }} min</span></p>
-                                            {% endif %}
-                                            
-                                            {% if drill.difficulty %}
-                                                <p>Difficulty: <span class="badge">{{ drill.difficulty }}</span></p>
-                                            {% endif %}
-                                            
-                                            {% if drill.equipment %}
-                                                <p class="equipment">🏀 Equipment: <strong>{{ drill.equipment }}</strong></p>
-                                            {% endif %}
-                                            
-                                            {% if drill.video_url %}
-                                                <div class="video-link">
-                                                    <a href="{{ drill.video_url }}" target="_blank">🎥 Video Demonstration</a>
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="empty-state">
-                    <p>No workouts available. Generate a new routine!</p>
-                </div>
-            {% endif %}
-            
-            <div class="action-buttons">
-                <a href="/basketball_drills/" class="btn">➕ Generate New Routine</a>
+<div class="drills-header">
+  <h2 class="text-center fw-bold fs-lg mb-3">
+    <i class="fas fa-basketball-ball text-primary"></i> Basketball Workouts
+  </h2>
+  <p class="text-center text-muted mb-4">View your saved basketball drill routines</p>
+</div>
+
+<div class="workout-container">
+  {% if drills %}
+    {% for workout in drills %}
+      <div class="workout-card">
+        <div class="workout-header" onclick="toggleWorkout(this)">
+          <div class="workout-header-left">
+            <h3 class="workout-name">{{ workout.name }}</h3>
+            <div class="workout-type">
+              <i class="fas fa-user-tag mr-2"></i> {{ workout.workout_type }}
             </div>
+          </div>
+          <div class="workout-toggle">
+            <i class="fas fa-chevron-down"></i>
+          </div>
         </div>
-    </main>
-</body>
-</html>
+        
+        <div class="workout-content">
+          <div class="drills-grid">
+            {% for drill in workout.exercises.all %}
+              <div class="drill-card">
+                <div class="drill-header">
+                  <h4 class="drill-name">{{ drill.name }}</h4>
+                </div>
+                <div class="drill-content">
+                  {% if drill.position %}
+                    <div class="drill-info">
+                      <span class="badge">
+                        <i class="fas fa-user-tag"></i> {{ drill.position }}
+                      </span>
+                    </div>
+                  {% endif %}
+                  
+                  <div class="drill-info">
+                    {% if drill.focus_skill %}
+                      <span class="badge">
+                        <i class="fas fa-bullseye"></i> {{ drill.focus_skill }}
+                      </span>
+                    {% endif %}
+                    
+                    {% if drill.duration_min %}
+                      <span class="badge">
+                        <i class="fas fa-clock"></i> {{ drill.duration_min }} min
+                      </span>
+                    {% endif %}
+                    
+                    {% if drill.difficulty %}
+                      <span class="badge">
+                        <i class="fas fa-signal"></i> {{ drill.difficulty }}
+                      </span>
+                    {% endif %}
+                  </div>
+                  
+                  {% if drill.equipment %}
+                    <div class="equipment">
+                      <i class="fas fa-basketball-ball"></i>
+                      <span>{{ drill.equipment }}</span>
+                    </div>
+                  {% endif %}
+                  
+                  {% if drill.video_url %}
+                    <div class="video-link">
+                      <a href="{{ drill.video_url }}" target="_blank">
+                        <i class="fas fa-play-circle"></i> Watch Video
+                      </a>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">
+      <div class="empty-state-icon">
+        <i class="fas fa-basketball-ball"></i>
+      </div>
+      <p class="empty-state-text">No workouts available. Generate a new routine!</p>
+      <a href="/basketball_drills/" class="btn">
+        <i class="fas fa-plus-circle"></i> Generate New Routine
+      </a>
+    </div>
+  {% endif %}
+  
+  {% if drills %}
+    <div class="d-flex justify-content-center mt-4">
+      <a href="/basketball_drills/" class="btn">
+        <i class="fas fa-plus-circle"></i> Generate New Routine
+      </a>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  function toggleWorkout(header) {
+    // Toggle icon
+    const toggle = header.querySelector('.workout-toggle');
+    toggle.classList.toggle('active');
+    
+    // Toggle content visibility
+    const content = header.nextElementSibling;
+    content.classList.toggle('active');
+    
+    // Focus animation
+    if (content.classList.contains('active')) {
+      header.parentElement.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+  }
+  
+  // Opcional: Expandir el primer elemento por defecto
+  document.addEventListener('DOMContentLoaded', function() {
+    const firstWorkout = document.querySelector('.workout-header');
+    if (firstWorkout) {
+      // Descomenta la siguiente línea si quieres que el primer elemento esté expandido por defecto
+      // toggleWorkout(firstWorkout);
+    }
+  });
+</script>
 {% endblock %}

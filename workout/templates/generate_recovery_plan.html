@@ -1,10 +1,67 @@
 {% extends 'base.html' %}
+
+{% block title %}Generate Recovery Plan{% endblock %}
+
+{% block extra_css %}
+<style>
+  .recovery-header {
+    margin-bottom: 2rem;
+  }
+  
+  .recovery-container {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  
+  .recovery-icon {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+  }
+  
+  .recovery-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  
+  .recovery-description {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-  <div class="container">
-    <h2>Generate Recovery Plan</h2>
-    <form method="post">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-primary">Generate New Plan</button>
-    </form>
+<div class="recovery-header">
+  <h2 class="text-center fw-bold fs-lg mb-3">
+    <i class="fas fa-heartbeat text-primary"></i> Recovery Plan Generator
+  </h2>
+  <p class="text-center text-muted mb-4">Create personalized recovery plans to optimize your training</p>
+</div>
+
+<div class="recovery-container">
+  <div class="recovery-icon">
+    <i class="fas fa-heartbeat"></i>
   </div>
+  <h3 class="recovery-title">Generate a New Recovery Plan</h3>
+  <p class="recovery-description">
+    Our system will create a personalized recovery plan based on your recent workouts, 
+    training intensity, and physical condition to help you recover faster and prevent injuries.
+  </p>
+  
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn">
+      <i class="fas fa-plus-circle"></i> Generate New Plan
+    </button>
+  </form>
+</div>
 {% endblock %}

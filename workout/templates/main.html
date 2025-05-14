@@ -1,195 +1,352 @@
 {% extends "base.html" %}
 {% block title %}HoopXpert Dashboard{% endblock %}
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HoopXpert Dashboard</title>
-    <style>
-        :root {
-            --primary-color: #FFA500;
-            --background-light: #fff;
-            --card-background: #f8f8f8;
-            --exercise-background: #fff;
-            --border-color: #e0e0e0;
-            --text-dark: #333;
-            --text-muted: #666;
-            --text-secondary: #777;
-            --success: #4CAF50;
-        }
-        
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--background-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-        
-        header {
-            background-color: var(--primary-color);
-            color: #000;
-            text-align: center;
-            padding: 1.5rem 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        h1 {
-            margin: 0;
-            font-size: 2.2rem;
-        }
-        
-        main {
-            width: 100%;
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        
-        .dashboard-container {
-            background-color: var(--card-background);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        .welcome-message {
-            text-align: center;
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin-bottom: 2rem;
-            animation: fadeIn 0.5s;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .stat-card {
-            background-color: var(--exercise-background);
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-title {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-        
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        .action-button {
-            background-color: var(--primary-color);
-            color: #000;
-            padding: 0.8rem 1.5rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .action-button:hover {
-            background-color: #FFB52E;
-            transform: translateY(-2px);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @media (max-width: 900px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .action-button {
-                width: 100%;
-                text-align: center;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <h1>🏀 HoopXpert Dashboard</h1>
-    </header>
 
-    <!-- Main Container -->
-    <main>
-        <div class="dashboard-container">
-            <div class="welcome-message">
-                Welcome, {{ username }}!
-            </div>
-            
-            <!-- Stats Section -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-title">Completed Workouts</div>
-                    <div class="stat-value">12</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-title">Weekly Progress</div>
-                    <div class="stat-value">85%</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-title">Consecutive Days</div>
-                    <div class="stat-value">5</div>
-                </div>
-            </div>
-            
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <a href="/progress_dashboard/" class="action-button">📈 View Progress</a>
-                <a href="/workout/" class="action-button">💪 New Workout</a>
-                <a href="#" class="action-button">⚙️ Profile Settings</a>
-            </div>
-        </div>
-    </main>
-</body>
-</html>
+{% block extra_css %}
+<style>
+  /* Dashboard specific styles */
+  .dashboard-header {
+    margin-bottom: 2rem;
+  }
+  
+  .welcome-banner {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  
+  .welcome-banner::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+  }
+  
+  .welcome-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 30%;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+  }
+  
+  .welcome-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  .welcome-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .stat-card {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .stat-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: var(--primary);
+    opacity: 0.2;
+  }
+  
+  .stat-title {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+  
+  .stat-trend {
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .trend-up {
+    color: var(--success);
+  }
+  
+  .trend-down {
+    color: var(--danger);
+  }
+  
+  .quick-actions {
+    margin-top: 2rem;
+  }
+  
+  .action-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+  
+  .action-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  
+  .action-card {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+  
+  .action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .action-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    background-color: rgba(255, 136, 0, 0.1);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition);
+  }
+  
+  .action-card:hover .action-icon {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  .action-label {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  .action-description {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+  
+  /* Recent Activity Section */
+  .recent-activity {
+    margin-top: 2rem;
+  }
+  
+  .activity-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--surface);
+    margin-bottom: 0.75rem;
+    transition: var(--transition);
+  }
+  
+  .activity-card:hover {
+    background-color: var(--surface-hover);
+  }
+  
+  .activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 136, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+  }
+  
+  .activity-content {
+    flex: 1;
+  }
+  
+  .activity-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .activity-time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 992px) {
+    .stats-grid, .action-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .stats-grid, .action-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<div class="dashboard-header">
+  <div class="welcome-banner">
+    <div class="welcome-title">Welcome back, {{ username }}! 👋</div>
+    <div class="welcome-subtitle">Track your basketball progress and improve your skills</div>
+  </div>
+</div>
+
+<!-- Stats Section -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon">
+      <i class="fas fa-dumbbell"></i>
+    </div>
+    <div class="stat-title">Completed Workouts</div>
+    <div class="stat-value">12</div>
+    <div class="stat-trend trend-up">
+      <i class="fas fa-arrow-up"></i> 3 more than last month
+    </div>
+  </div>
+  
+  <div class="stat-card">
+    <div class="stat-icon">
+      <i class="fas fa-chart-line"></i>
+    </div>
+    <div class="stat-title">Weekly Progress</div>
+    <div class="stat-value">85%</div>
+    <div class="stat-trend trend-up">
+      <i class="fas fa-arrow-up"></i> 7% improvement
+    </div>
+  </div>
+  
+  <div class="stat-card">
+    <div class="stat-icon">
+      <i class="fas fa-calendar-check"></i>
+    </div>
+    <div class="stat-title">Consecutive Days</div>
+    <div class="stat-value">5</div>
+    <div class="stat-trend">
+      <i class="fas fa-fire"></i> Keep the streak going!
+    </div>
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions">
+  <h2 class="action-title">Quick Actions</h2>
+  <div class="action-grid">
+    <a href="/progress_dashboard/" class="action-card">
+      <div class="action-icon">
+        <i class="fas fa-chart-bar"></i>
+      </div>
+      <div class="action-label">View Progress</div>
+      <div class="action-description">Check your performance stats</div>
+    </a>
+    
+    <a href="/workout/" class="action-card">
+      <div class="action-icon">
+        <i class="fas fa-dumbbell"></i>
+      </div>
+      <div class="action-label">New Workout</div>
+      <div class="action-description">Start a training session</div>
+    </a>
+    
+    <a href="/basketball_drills/" class="action-card">
+      <div class="action-icon">
+        <i class="fas fa-basketball-ball"></i>
+      </div>
+      <div class="action-label">Basketball Drills</div>
+      <div class="action-description">Practice specific skills</div>
+    </a>
+  </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="recent-activity">
+  <h2 class="action-title">Recent Activity</h2>
+  
+  <div class="activity-card">
+    <div class="activity-icon">
+      <i class="fas fa-dumbbell"></i>
+    </div>
+    <div class="activity-content">
+      <div class="activity-title">Completed Strength Training</div>
+      <div class="activity-description">45 minutes workout session</div>
+    </div>
+    <div class="activity-time">Yesterday</div>
+  </div>
+  
+  <div class="activity-card">
+    <div class="activity-icon">
+      <i class="fas fa-basketball-ball"></i>
+    </div>
+    <div class="activity-content">
+      <div class="activity-title">Shooting Drill Practice</div>
+      <div class="activity-description">100 shots, 68% accuracy</div>
+    </div>
+    <div class="activity-time">2 days ago</div>
+  </div>
+  
+  <div class="activity-card">
+    <div class="activity-icon">
+      <i class="fas fa-heartbeat"></i>
+    </div>
+    <div class="activity-content">
+      <div class="activity-title">Recovery Session</div>
+      <div class="activity-description">Stretching and mobility exercises</div>
+    </div>
+    <div class="activity-time">3 days ago</div>
+  </div>
+</div>
 {% endblock %}

@@ -1,23 +1,262 @@
 {% extends 'base.html' %}
+
+{% block title %}Recovery Plan History{% endblock %}
+
+{% block extra_css %}
+<style>
+  .recovery-header {
+    margin-bottom: 2rem;
+  }
+  
+  .recovery-container {
+    margin-bottom: 2rem;
+  }
+  
+  .plan-card {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    transition: var(--transition);
+  }
+  
+  .plan-card:hover {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .plan-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #28a745 0%, #20883a 100%);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .plan-header-left {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .plan-name {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .plan-toggle {
+    font-size: 1.25rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .plan-toggle.active {
+    transform: rotate(180deg);
+  }
+  
+  .plan-content {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.3s ease-in-out;
+  }
+  
+  .plan-content.active {
+    padding: 1.5rem;
+    max-height: 2000px; /* Valor alto para asegurar que todo el contenido se muestre */
+  }
+  
+  .exercise-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .exercise-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    transition: var(--transition);
+  }
+  
+  .exercise-item:last-child {
+    border-bottom: none;
+  }
+  
+  .exercise-item:hover {
+    background-color: var(--surface-hover);
+  }
+  
+  .exercise-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(40, 167, 69, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #28a745;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+  
+  .exercise-content {
+    flex: 1;
+  }
+  
+  .exercise-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+  
+  .exercise-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+  
+  .exercise-duration, .exercise-category, .exercise-equipment {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+  
+  .empty-state-icon {
+    font-size: 3rem;
+    color: #28a745;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  .empty-state-text {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Agregamos indicador del total de ejercicios */
+  .exercise-count {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    margin-top: 0.5rem;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-  <div class="container">
-    <h2>Recovery Plan History</h2>
+<div class="recovery-header">
+  <h2 class="text-center fw-bold fs-lg mb-3">
+    <i class="fas fa-file-medical text-success"></i> Recovery Plan History
+  </h2>
+  <p class="text-center text-muted mb-4">View your saved recovery plans and exercises</p>
+</div>
+
+<div class="recovery-container">
+  {% if plans %}
     {% for plan in plans %}
-      <div class="card my-3">
-        <div class="card-header">
-          {{ plan.name }}
+      <div class="plan-card">
+        <div class="plan-header" onclick="togglePlan(this)">
+          <div class="plan-header-left">
+            <h3 class="plan-name">{{ plan.name }}</h3>
+            <div class="exercise-count">
+              <i class="fas fa-list mr-2"></i> {{ plan.exercises.all|length }} exercises
+            </div>
+          </div>
+          <div class="plan-toggle">
+            <i class="fas fa-chevron-down"></i>
+          </div>
         </div>
-        <ul class="list-group list-group-flush">
-          {% for exercise in plan.exercises.all %}
-            <li class="list-group-item">
-              <strong>{{ exercise.exercise_name }}</strong> – {{ exercise.duration }} ({{ exercise.category }})
-              <em>Equipment: {{ exercise.equipment_needed }}</em>
-            </li>
-          {% endfor %}
-        </ul>
+        
+        <div class="plan-content">
+          <ul class="exercise-list">
+            {% for exercise in plan.exercises.all %}
+              <li class="exercise-item">
+                <div class="exercise-icon">
+                  <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="exercise-content">
+                  <div class="exercise-name">{{ exercise.exercise_name }}</div>
+                  <div class="exercise-details">
+                    <div class="exercise-duration">
+                      <i class="fas fa-clock"></i> {{ exercise.duration }}
+                    </div>
+                    <div class="exercise-category">
+                      <i class="fas fa-tag"></i> {{ exercise.category }}
+                    </div>
+                    <div class="exercise-equipment">
+                      <i class="fas fa-dumbbell"></i> {{ exercise.equipment_needed }}
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-    {% empty %}
-      <p>No recovery plans found.</p>
     {% endfor %}
-  </div>
+  {% else %}
+    <div class="empty-state">
+      <div class="empty-state-icon">
+        <i class="fas fa-file-medical"></i>
+      </div>
+      <p class="empty-state-text">No recovery plans found.</p>
+      <a href="/generate_recovery_plan/" class="btn">
+        <i class="fas fa-plus-circle"></i> Generate New Plan
+      </a>
+    </div>
+  {% endif %}
+  
+  {% if plans %}
+    <div class="d-flex justify-content-center mt-4">
+      <a href="/generate_recovery_plan/" class="btn">
+        <i class="fas fa-plus-circle"></i> Generate New Plan
+      </a>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  function togglePlan(header) {
+    // Toggle icon
+    const toggle = header.querySelector('.plan-toggle');
+    toggle.classList.toggle('active');
+    
+    // Toggle content visibility
+    const content = header.nextElementSibling;
+    content.classList.toggle('active');
+    
+    // Focus animation
+    if (content.classList.contains('active')) {
+      header.parentElement.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+  }
+  
+  // Opcional: Expandir el primer elemento por defecto
+  document.addEventListener('DOMContentLoaded', function() {
+    const firstPlan = document.querySelector('.plan-header');
+    if (firstPlan) {
+      // Descomenta la siguiente línea si quieres que el primer elemento esté expandido por defecto
+      // togglePlan(firstPlan);
+    }
+  });
+</script>
 {% endblock %}

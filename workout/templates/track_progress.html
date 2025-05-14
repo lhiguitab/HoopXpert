@@ -1,272 +1,218 @@
 {% extends "base.html" %}
+
+{% block title %}Track Your Workout Progress{% endblock %}
+
+{% block extra_css %}
+<style>
+  .progress-header {
+    margin-bottom: 2rem;
+  }
+  
+  .progress-form-container {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .form-select-container {
+    margin-bottom: 2rem;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+  
+  .form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.25);
+  }
+  
+  .message-alert {
+    background-color: var(--success);
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.5s;
+    display: inline-block;
+  }
+  
+  .placeholder-message {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+  
+  .placeholder-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  .placeholder-text {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @media (max-width: 992px) {
+    .form-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .progress-form-container {
+      padding: 1.5rem;
+    }
+    
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Track Your Workout Progress</title>
-    <style>
-        :root {
-            --primary-color: #FFA500;
-            --background-light: #fff;
-            --card-background: #f8f8f8;
-            --exercise-background: #fff;
-            --border-color: #e0e0e0;
-            --text-dark: #333;
-            --text-muted: #666;
-            --text-secondary: #777;
-            --success: #4CAF50;
-        }
-        
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--background-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-        
-        header {
-            background-color: var(--primary-color);
-            color: #000;
-            text-align: center;
-            padding: 1.5rem 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        h1 {
-            margin: 0;
-            font-size: 2.2rem;
-        }
-        
-        .messages-container {
-            margin: 1.5rem auto;
-            text-align: center;
-            max-width: 1200px;
-            width: 90%;
-        }
-        
-        .message {
-            background-color: var(--success);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            display: inline-block;
-            font-weight: bold;
-            margin: 0.5rem;
-            animation: fadeIn 0.5s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        main {
-            width: 100%;
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0;
-        }
-        
-        .workout-container {
-            background-color: var(--card-background);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        h2 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 1.8rem;
-        }
-        
-        .form-select {
-            margin-bottom: 2.5rem;
-            max-width: 100%;
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-        
-        .full-width {
-            grid-column: 1 / -1;
-        }
-        
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 0.8rem;
-            color: var(--text-dark);
-            font-size: 1.1rem;
-        }
-        
-        select, input, textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            font-size: 1rem;
-            background-color: var(--exercise-background);
-            color: var(--text-dark);
-            transition: border 0.3s, box-shadow 0.3s;
-        }
-        
-        select:focus, input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(255,165,0,0.25);
-        }
-        
-        button {
-            background-color: var(--primary-color);
-            color: #000;
-            padding: 0.8rem 1.5rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-            width: 100%;
-            max-width: 400px;
-            margin: 1rem auto;
-            display: block;
-        }
-        
-        button:hover {
-            background-color: #FFB52E;
-            transform: translateY(-2px);
-        }
-        
-        .placeholder-message {
-            text-align: center;
-            color: var(--text-secondary);
-            padding: 2rem 0;
-            font-style: italic;
-            font-size: 1.1rem;
-        }
-        
-        @media (max-width: 900px) {
-            .form-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 600px) {
-            main {
-                padding: 1rem;
-            }
-            
-            .workout-container {
-                padding: 1.5rem;
-            }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <h1>📈 Track Your Workout Progress</h1>
-    </header>
+<div class="progress-header">
+  <h2 class="text-center fw-bold fs-lg mb-3">
+    <i class="fas fa-chart-line text-primary"></i> Track Your Workout Progress
+  </h2>
+  <p class="text-center text-muted mb-4">Record your exercise performance and monitor your improvement over time</p>
+</div>
 
-    <!-- Messages -->
-    {% if messages %}
-    <div class="messages-container">
-        {% for message in messages %}
-            <div class="message">
-                {{ message }}
-            </div>
-        {% endfor %}
+<!-- Messages -->
+{% if messages %}
+<div class="d-flex justify-content-center mb-4">
+  {% for message in messages %}
+    <div class="message-alert">
+      <i class="fas fa-check-circle"></i> {{ message }}
     </div>
-    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}
 
-    <!-- Main Container -->
-    <main>
-        <div class="workout-container">
-            <h2>Log Your Progress</h2>
+<div class="progress-form-container">
+  <h3 class="form-title">Log Your Progress</h3>
 
-            <!-- Workout Selection Form -->
-            <form method="get" class="form-select">
-                <label for="workout">Workout:</label>
-                <select name="workout" id="workout" onchange="this.form.submit()" required>
-                    <option value="">-- Select --</option>
-                    {% for workout in workouts %}
-                        <option value="{{ workout.id }}" {% if workout.id|stringformat:"s" == prev_workout %}selected{% endif %}>
-                            {{ workout.name }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </form>
+  <!-- Workout Selection Form -->
+  <div class="form-select-container">
+    <form method="get">
+      <div class="form-group">
+        <label for="workout" class="form-label">Workout:</label>
+        <select name="workout" id="workout" class="form-control" onchange="this.form.submit()" required>
+          <option value="">-- Select --</option>
+          {% for workout in workouts %}
+            <option value="{{ workout.id }}" {% if workout.id|stringformat:"s" == prev_workout %}selected{% endif %}>
+              {{ workout.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </form>
+  </div>
 
-            <!-- Progress Recording Form -->
-            {% if exercises %}
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" name="workout" value="{{ prev_workout }}">
+  <!-- Progress Recording Form -->
+  {% if exercises %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="workout" value="{{ prev_workout }}">
 
-                <div class="form-grid">
-                    <!-- Exercise Dropdown -->
-                    <div>
-                        <label for="exercise">Exercise:</label>
-                        <select name="exercise" id="exercise" required>
-                            {% for exercise in exercises %}
-                                <option value="{{ exercise.id }}">{{ exercise.exercise_name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <!-- Sets -->
-                    <div>
-                        <label for="sets">Sets:</label>
-                        <input type="number" name="sets" id="sets" min="1" required>
-                    </div>
-
-                    <!-- Reps -->
-                    <div>
-                        <label for="reps">Repetitions:</label>
-                        <input type="number" name="reps" id="reps" min="1" required>
-                    </div>
-
-                    <!-- Weight -->
-                    <div>
-                        <label for="weight">Weight (kg):</label>
-                        <input type="number" name="weight" id="weight" min="0" step="0.1">
-                    </div>
-
-                    <!-- Notes -->
-                    <div class="full-width">
-                        <label for="notes">Notes (optional):</label>
-                        <textarea name="notes" id="notes" rows="4"></textarea>
-                    </div>
-
-                    <!-- Save Button -->
-                    <div class="full-width">
-                        <button type="submit">💾 Save Progress</button>
-                    </div>
-                </div>
-            </form>
-            {% else %}
-                <p class="placeholder-message">
-                    Please select a workout to view available exercises.
-                </p>
-            {% endif %}
+      <div class="form-grid">
+        <!-- Exercise Dropdown -->
+        <div class="form-group">
+          <label for="exercise" class="form-label">Exercise:</label>
+          <select name="exercise" id="exercise" class="form-control" required>
+            {% for exercise in exercises %}
+              <option value="{{ exercise.id }}">{{ exercise.exercise_name }}</option>
+            {% endfor %}
+          </select>
         </div>
-    </main>
-</body>
-</html>
+
+        <!-- Sets -->
+        <div class="form-group">
+          <label for="sets" class="form-label">Sets:</label>
+          <input type="number" name="sets" id="sets" min="1" class="form-control" required>
+        </div>
+
+        <!-- Reps -->
+        <div class="form-group">
+          <label for="reps" class="form-label">Repetitions:</label>
+          <input type="number" name="reps" id="reps" min="1" class="form-control" required>
+        </div>
+
+        <!-- Weight -->
+        <div class="form-group">
+          <label for="weight" class="form-label">Weight (kg):</label>
+          <input type="number" name="weight" id="weight" min="0" step="0.1" class="form-control">
+        </div>
+
+        <!-- Notes -->
+        <div class="form-group full-width">
+          <label for="notes" class="form-label">Notes (optional):</label>
+          <textarea name="notes" id="notes" rows="4" class="form-control"></textarea>
+        </div>
+      </div>
+
+      <!-- Save Button -->
+      <button type="submit" class="btn w-100 mt-4">
+        <i class="fas fa-save"></i> Save Progress
+      </button>
+    </form>
+  {% else %}
+    <div class="placeholder-message">
+      <div class="placeholder-icon">
+        <i class="fas fa-dumbbell"></i>
+      </div>
+      <p class="placeholder-text">Please select a workout to view available exercises.</p>
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

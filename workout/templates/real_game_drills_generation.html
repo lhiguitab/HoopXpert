@@ -1,42 +1,244 @@
 {% extends 'base.html' %}
-{% block title %}Real Game Drills{% endblock %}
-{% block content %}
-<h2>🧠 Generate Real Game Drill Routine</h2>
 
-<form method="POST" style="margin-bottom: 20px;">
+{% block title %}Real Game Drills{% endblock %}
+
+{% block extra_css %}
+<style>
+  .game-drills-header {
+    margin-bottom: 2rem;
+  }
+  
+  .game-drills-form-container {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+  
+  .select-wrapper {
+    position: relative;
+  }
+  
+  .select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    pointer-events: none;
+    font-size: 0.8rem;
+  }
+  
+  .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    border: 2px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: var(--transition);
+    appearance: none;
+  }
+  
+  .form-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.25);
+  }
+  
+  .drill-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .drill-card {
+    background-color: var(--background);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: var(--transition);
+  }
+  
+  .drill-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary-light);
+  }
+  
+  .drill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.75rem;
+  }
+  
+  .drill-title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary);
+  }
+  
+  .drill-duration {
+    background-color: rgba(255, 136, 0, 0.1);
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--primary);
+  }
+  
+  .drill-description {
+    margin: 0 0 1.5rem 0;
+    color: var(--text-secondary);
+  }
+  
+  .video-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  
+  .video-link:hover {
+    background-color: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+  }
+  
+  .results-section {
+    padding: 1.5rem;
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+  }
+  
+  .results-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+  
+  .empty-state-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  .empty-state-text {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .game-drills-form-container {
+      padding: 1.5rem;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="game-drills-header">
+  <h2 class="text-center fw-bold fs-lg mb-3">
+    <i class="fas fa-gamepad text-primary"></i> Real Game Drill Generator
+  </h2>
+  <p class="text-center text-muted mb-4">Practice game scenarios to improve your performance</p>
+</div>
+
+<div class="game-drills-form-container">
+  <h3 class="form-title">Generate Game Simulation Drills</h3>
+
+  <form method="POST" class="scenario-form">
     {% csrf_token %}
     
-    <label for="scenario"><strong>Select a Game Scenario:</strong></label>
-    <select name="scenario" id="scenario" required class="btn" style="margin-left: 10px; margin-right: 10px;">
-        <option value="">-- Choose a scenario --</option>
-        {% for scenario in scenarios %}
+    <div class="form-group">
+      <label for="scenario" class="form-label">Select a Game Scenario:</label>
+      <div class="select-wrapper">
+        <select name="scenario" id="scenario" class="form-select" required>
+          <option value="">-- Choose a scenario --</option>
+          {% for scenario in scenarios %}
             <option value="{{ scenario }}" {% if selected_scenario == scenario %}selected{% endif %}>
-                {{ scenario }}
+              {{ scenario }}
             </option>
-        {% endfor %}
-    </select>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
 
-    <button type="submit" class="btn">🎮 Generate Real Game Routine</button>
-</form>
+    <button type="submit" class="btn w-100">
+      <i class="fas fa-gamepad"></i> Generate Real Game Routine
+    </button>
+  </form>
+</div>
 
 {% if workout_exercises %}
-    <div class="card">
-        <h3>Generated Routine</h3>
-        <ul>
-        {% for drill in workout_exercises %}
-            <li>
-                <strong>{{ drill.title }}</strong><br>
-                {{ drill.description }}<br>
-                ⏱ Duration: {{ drill.duration_min }} min<br>
-                {% if drill.video_link %}
-                🎥 <a href="{{ drill.video_link }}" target="_blank">Watch</a>
-                {% endif %}
-            </li>
-            <hr>
-        {% endfor %}
-        </ul>
-    </div>
+  <div class="results-section">
+    <h3 class="results-title">Generated Routine</h3>
+    
+    <ul class="drill-list">
+      {% for drill in workout_exercises %}
+        <li class="drill-card">
+          <div class="drill-header">
+            <h4 class="drill-title">{{ drill.title }}</h4>
+            <span class="drill-duration">{{ drill.duration_min }} min</span>
+          </div>
+          
+          <p class="drill-description">{{ drill.description }}</p>
+          
+          {% if drill.video_link %}
+            <a href="{{ drill.video_link }}" target="_blank" class="video-link">
+              <i class="fas fa-play-circle"></i> Watch Video
+            </a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endif %}
-
-<a href="/main/" class="btn">🏠 Back to Home</a>
 {% endblock %}

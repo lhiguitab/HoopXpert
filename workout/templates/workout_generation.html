@@ -1,293 +1,268 @@
 {% extends "base.html" %}
+
+{% block title %}Generate Workout{% endblock %}
+
+{% block extra_css %}
+<style>
+  .workout-header {
+    margin-bottom: 2rem;
+  }
+  
+  .workout-form-container {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+  
+  .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+  
+  .form-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.25);
+  }
+  
+  .exercises-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .exercise-card {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: var(--transition);
+    height: 100%;
+  }
+  
+  .exercise-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+  }
+  
+  .exercise-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    background-color: rgba(255, 136, 0, 0.05);
+  }
+  
+  .exercise-name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary);
+  }
+  
+  .exercise-content {
+    padding: 1rem;
+  }
+  
+  .exercise-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: rgba(255, 136, 0, 0.1);
+    color: var(--primary);
+  }
+  
+  .equipment-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+  
+  .video-link {
+    margin-top: 1rem;
+  }
+  
+  .video-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: rgba(255, 136, 0, 0.1);
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  
+  .video-link a:hover {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+  
+  .empty-state-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  .empty-state-text {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .workout-form-container {
+      padding: 1.5rem;
+    }
+    
+    .exercises-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Workout</title>
-    <style>
-        :root {
-            --primary-color: #FFA500;
-            --background-light: #fff;
-            --card-background: #f8f8f8;
-            --exercise-background: #fff;
-            --border-color: #e0e0e0;
-            --text-dark: #333;
-            --text-muted: #666;
-            --text-secondary: #777;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--background-light);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        
-        header {
-            background-color: var(--primary-color);
-            color: #000;
-            text-align: center;
-            padding: 1.5rem 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-        }
-        
-        main {
-            width: 100%;
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0;
-        }
-        
-        .workout-container {
-            background-color: var(--card-background);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        h2 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 1.8rem;
-        }
-        
-        form {
-            margin-bottom: 2.5rem;
-        }
-        
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 0.8rem;
-            color: var(--text-dark);
-            font-size: 1.1rem;
-        }
-        
-        select {
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            font-size: 1rem;
-            background-color: var(--exercise-background);
-            color: var(--text-dark);
-            transition: border 0.3s, box-shadow 0.3s;
-            margin-bottom: 1.5rem;
-        }
-        
-        select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(255,165,0,0.25);
-        }
-        
-        button {
-            background-color: var(--primary-color);
-            color: #000;
-            padding: 0.8rem 1.5rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-            display: block;
-            margin: 0 auto;
-            width: auto;
-            min-width: 200px;
-        }
-        
-        button:hover {
-            background-color: #FFB52E;
-            transform: translateY(-2px);
-        }
-        
-        .exercise-list {
-            list-style: none;
-            padding: 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .exercise-card {
-            background-color: var(--exercise-background);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.25rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-            height: 100%;
-        }
-        
-        .exercise-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .exercise-name {
-            margin: 0;
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: var(--text-dark);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .exercise-info {
-            margin: 0.5rem 0;
-            color: var(--text-muted);
-        }
-        
-        .badge {
-            background-color: #f0f0f0;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-right: 0.5rem;
-        }
-        
-        .equipment-info {
-            margin: 0.75rem 0;
-            color: var(--text-dark);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .video-link {
-            display: inline-block;
-            margin: 1rem 0 0 0;
-        }
-        
-        .video-link a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            border: 1px solid var(--primary-color);
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-        
-        .video-link a:hover {
-            background-color: rgba(255, 165, 0, 0.1);
-        }
-        
-        .empty-state {
-            text-align: center;
-            color: var(--text-secondary);
-            padding: 2rem 0;
-            font-style: italic;
-        }
-        
-        @media (max-width: 768px) {
-            main {
-                padding: 1rem;
-            }
+<div class="workout-header">
+  <h2 class="text-center fw-bold fs-lg mb-3">
+    <i class="fas fa-dumbbell text-primary"></i> Generate Workout
+  </h2>
+  <p class="text-center text-muted mb-4">Create personalized workout routines based on your training goals</p>
+</div>
+
+<div class="workout-form-container">
+  <h3 class="form-title">Create Your Training Plan</h3>
+
+  <!-- Workout Selection Form -->
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="workout_type" class="form-label">Select the type of workout:</label>
+      <select name="workout_type" id="workout_type" class="form-select" required>
+        <option value="">-- Select --</option>
+        <option value="Push">Push (Chest, Shoulders, Triceps)</option>
+        <option value="Pull">Pull (Back, Biceps, Forearms, Trapezius)</option>
+        <option value="LegsAbs">Legs & Abs (Legs, Glutes, Core)</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn w-100">
+      <i class="fas fa-plus-circle"></i> Generate Workout
+    </button>
+  </form>
+</div>
+
+<!-- Generated Workout Display -->
+{% if workout_exercises %}
+  <div class="card p-4 mb-4">
+    <h3 class="text-center mb-4">
+      <span class="badge" style="font-size: 1rem; padding: 0.5rem 1rem;">{{ workout_type }}</span> 
+      Workout
+    </h3>
+
+    <div class="exercises-grid">
+      {% for exercise in workout_exercises %}
+        <div class="exercise-card">
+          <div class="exercise-header">
+            <h3 class="exercise-name">{{ exercise.exercise_name }}</h3>
+          </div>
+          <div class="exercise-content">
+            <div class="exercise-info">
+              <span class="badge">
+                <i class="fas fa-signal"></i> {{ exercise.difficulty_level }}
+              </span>
+              <span class="badge">
+                <i class="fas fa-bullseye"></i> {{ exercise.target_muscle_group }}
+              </span>
+            </div>
             
-            .workout-container {
-                padding: 1.5rem;
-            }
+            <div class="equipment-info">
+              <i class="fas fa-dumbbell"></i>
+              <strong>{{ exercise.primary_equipment }}</strong>
+              {% if exercise.num_primary_items %}
+                (Qty: {{ exercise.num_primary_items }})
+              {% endif %}
+            </div>
             
-            .exercise-list {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <h1>🏋️ Generate Workout</h1>
-    </header>
-
-    <!-- Main Container -->
-    <main>
-        <div class="workout-container">
-            <h2>Create Your Training Plan</h2>
-
-            <!-- Workout Selection Form -->
-            <form method="post">
-                {% csrf_token %}
-                <label for="workout_type">Select the type of workout:</label>
-                
-                <select name="workout_type" id="workout_type" required>
-                    <option value="">-- Select --</option>
-                    <option value="Push">Push (Chest, Shoulders, Triceps)</option>
-                    <option value="Pull">Pull (Back, Biceps, Forearms, Trapezius)</option>
-                    <option value="LegsAbs">Legs & Abs (Legs, Glutes, Core)</option>
-                </select>
-
-                <button type="submit">➕ Generate Workout</button>
-            </form>
-
-            <!-- Generated Workout Display -->
-            {% if workout_exercises %}
-                <h2>{{ workout_type }} Workout</h2>
-
-                <ul class="exercise-list">
-                    {% for exercise in workout_exercises %}
-                        <li class="exercise-card">
-                            <h3 class="exercise-name">{{ exercise.exercise_name }}</h3>
-                            
-                            <p class="exercise-info">
-                                <span class="badge">{{ exercise.difficulty_level }}</span>
-                                <span class="badge">{{ exercise.target_muscle_group }}</span>
-                            </p>
-                            
-                            <p class="equipment-info">
-                                🏋️ <strong>{{ exercise.primary_equipment }}</strong>
-                                {% if exercise.num_primary_items %}
-                                    (Qty: {{ exercise.num_primary_items }})
-                                {% endif %}
-                            </p>
-                            
-                            {% if exercise.secondary_equipment %}
-                                <p class="equipment-info">
-                                    🛠️ <strong>{{ exercise.secondary_equipment }}</strong>
-                                    {% if exercise.num_secondary_items %}
-                                        (Qty: {{ exercise.num_secondary_items }})
-                                    {% endif %}
-                                </p>
-                            {% endif %}
-                            
-                            {% if exercise.short_youtube_demonstration %}
-                                <div class="video-link">
-                                    <a href="{{ exercise.short_youtube_demonstration }}" target="_blank">
-                                        🎥 Video Demonstration
-                                    </a>
-                                </div>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-
-            {% elif workout_type %}
-                <div class="empty-state">
-                    <p>No exercises found for the selected workout type.</p>
-                </div>
+            {% if exercise.secondary_equipment %}
+              <div class="equipment-info">
+                <i class="fas fa-tools"></i>
+                <strong>{{ exercise.secondary_equipment }}</strong>
+                {% if exercise.num_secondary_items %}
+                  (Qty: {{ exercise.num_secondary_items }})
+                {% endif %}
+              </div>
             {% endif %}
+            
+            {% if exercise.short_youtube_demonstration %}
+              <div class="video-link">
+                <a href="{{ exercise.short_youtube_demonstration }}" target="_blank">
+                  <i class="fas fa-play-circle"></i> Video Demonstration
+                </a>
+              </div>
+            {% endif %}
+          </div>
         </div>
-    </main>
-</body>
-</html>
+      {% endfor %}
+    </div>
+  </div>
+{% elif workout_type %}
+  <div class="empty-state">
+    <div class="empty-state-icon">
+      <i class="fas fa-dumbbell"></i>
+    </div>
+    <p class="empty-state-text">No exercises found for the selected workout type.</p>
+  </div>
+{% endif %}
 {% endblock %}

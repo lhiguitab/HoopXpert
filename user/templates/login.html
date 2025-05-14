@@ -2,172 +2,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HoopXpert - Log In</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HoopXpert - Log In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #FF8800;
+      --primary-light: #FFA940;
+      --primary-dark: #E67700;
+      --primary-hover: #FF9922;
+      --secondary: #2C3E50;
+      --background: #F8F9FA;
+      --surface: #FFFFFF;
+      --surface-hover: #F1F3F5;
+      --border: #E9ECEF;
+      --text-primary: #212529;
+      --text-secondary: #495057;
+      --text-muted: #6C757D;
+      --text-light: #FFFFFF;
+      --success: #28A745;
+      --info: #17A2B8;
+      --warning: #FFC107;
+      --danger: #DC3545;
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            height: 100vh;
-            display: flex;
-            background-color: #fff; /* fondo blanco */
-        }
+    * { 
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            display: flex;
-            width: 100%;
-            height: 100vh;
-            background-color: #fff;
-        }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      display: flex;
+      background-color: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
 
-        /* Sección izquierda - solo imagen */
-        .left-section {
-            flex: 1;
-            background-color: #fff; /* fondo blanco */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+    }
 
-        .left-section img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    /* Left section with image */
+    .left-section {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: none; /* Hidden on mobile by default */
+    }
 
-        /* Sección derecha - login */
-        .right-section {
-            flex: 1;
-            background-color: #fff; /* fondo blanco */
-            color: #000; /* texto oscuro */
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
+    .left-section img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        /* Texto en la esquina superior derecha */
-        .brand {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #000; /* marca oscura */
-        }
+    .left-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      color: var(--text-light);
+    }
 
-        .login-box {
-            width: 100%;
-            max-width: 400px;
-        }
+    .left-content {
+      max-width: 500px;
+      text-align: center;
+    }
 
-        .login-box h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: #000;
-        }
+    .left-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
 
-        .login-box label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #000;
-        }
+    .left-content p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
 
-        .login-box input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f5f5f5; /* input sobre blanco */
-            color: #000;
-        }
+    /* Right section with form */
+    .right-section {
+      flex: 1;
+      background-color: var(--surface);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      position: relative;
+    }
 
-        .login-box input::placeholder {
-            color: #999;
-        }
+    .logo-link {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        .login-box button {
-            width: 100%;
-            padding: 12px;
-            background-color: #d97118; /* puedes cambiarlo si lo prefieres más neutro */
-            color: #fff;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      animation: fadeIn 0.5s ease-out;
+    }
 
-        .login-box button:hover {
-            background-color: #b55a10;
-        }
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
 
-        .login-box .forgot {
-            text-align: center;
-            margin-top: 10px;
-        }
+    .login-header h2 {
+      font-size: 2rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
 
-        .login-box .forgot a {
-            color: #666;
-            text-decoration: none;
-            font-size: 14px;
-        }
+    .login-header p {
+      color: var(--text-secondary);
+    }
 
-        .login-box .forgot a:hover {
-            text-decoration: underline;
-        }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
 
-        .error-message {
-            color: #ff4d4f;
-            margin-bottom: 10px;
-            text-align: center;
-        }
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
 
-    </style>
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+      background-color: var(--surface);
+      color: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 136, 0, 0.25);
+    }
+
+    .form-control::placeholder {
+      color: var(--text-muted);
+    }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: center;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--text-light);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    .signup-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: var(--danger);
+      padding: 0.75rem 1rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      border-left: 3px solid var(--danger);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 992px) {
+      .left-section {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .logo-link {
+        top: 1rem;
+        left: 1rem;
+      }
+      
+      .right-section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-
-<div class="container">
-
-    <!-- Sección izquierda solo imagen -->
+  <div class="container">
+    <!-- Left section with image and overlay -->
     <div class="left-section">
-        <img src="{% static 'images/entrance_background.jpg' %}" alt="HoopXpert">
-    </div>
-
-    <!-- Sección derecha -->
-    <div class="right-section">
-        <!-- Texto en la esquina superior derecha -->
-        <div class="brand">HoopXpert</div>
-
-        <div class="login-box">
-            <h2>Log in</h2>
-
-            <form action="/login/" method="POST">
-                {% csrf_token %}
-
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter Username" required>
-
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter Password" required>
-
-                {% if error %}
-                    <div class="error-message">{{ error }}</div>
-                {% endif %}
-
-                <button type="submit">Log in</button>
-            </form>
+      <img src="{% static 'images/entrance_background.jpg' %}" alt="Basketball court">
+      <div class="left-overlay">
+        <div class="left-content">
+          <h2>Welcome Back</h2>
+          <p>Log in to access your personalized basketball training programs and continue your journey to excellence.</p>
         </div>
+      </div>
     </div>
 
-</div>
+    <!-- Right section with login form -->
+    <div class="right-section">
+      <a href="/" class="logo-link">
+        <i class="fas fa-basketball-ball"></i> HoopXpert
+      </a>
 
+      <div class="login-box">
+        <div class="login-header">
+          <h2>Log In</h2>
+          <p>Enter your credentials to access your account</p>
+        </div>
+
+        {% if error %}
+          <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i> {{ error }}
+          </div>
+        {% endif %}
+
+        <form action="/login/" method="POST">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-sign-in-alt"></i> Log In
+          </button>
+        </form>
+
+        <div class="signup-link">
+          Don't have an account? <a href="/signup">Sign up</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
