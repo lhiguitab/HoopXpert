@@ -19,6 +19,8 @@ from django.urls import path
 from user import views as user_views
 from workout import views as workout_views
 from workout.views import progress_dashboard
+from workout.views import generate_recovery_plan
+from workout.views import recovery_plan_history
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,6 +39,9 @@ urlpatterns = [
     path('real_game_drills_list/', workout_views.real_game_drills_list),
     path('schedule/', workout_views.schedule),
     path('progress_dashboard/', progress_dashboard, name='progress_dashboard'),
+    path('generate_recovery_plan/', generate_recovery_plan, name='generate_recovery_plan'),
+    path('recovery_plan_history/', recovery_plan_history, name='recovery_plan_history'),
+
 
 
 

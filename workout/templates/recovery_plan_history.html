@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container">
+    <h2>Recovery Plan History</h2>
+    {% for plan in plans %}
+      <div class="card my-3">
+        <div class="card-header">
+          {{ plan.name }}
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for exercise in plan.exercises.all %}
+            <li class="list-group-item">
+              <strong>{{ exercise.exercise_name }}</strong> – {{ exercise.duration }} ({{ exercise.category }})
+              <em>Equipment: {{ exercise.equipment_needed }}</em>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% empty %}
+      <p>No recovery plans found.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

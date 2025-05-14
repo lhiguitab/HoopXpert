@@ -131,4 +131,26 @@ class RealGameDrillWorkout(models.Model):
 
     def __str__(self):
         return self.name
+    
+class RecoveryExercise(models.Model):
+    exercise_name = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    duration = models.CharField(max_length=50)
+    equipment_needed = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.exercise_name
+
+class RecoveryPlan(models.Model):
+    name = models.CharField(max_length=100, blank=True)
+    exercises = models.ManyToManyField(RecoveryExercise)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+    def save(self, *args, **kwargs):
+        if not self.name:
+            # Contar cuántos planes existen con el patrón "Recovery Plan"
+            existing_plans = RecoveryPlan.objects.filter(name__startswith="Recovery Plan").count() + 1
+            self.name = f"Recovery Plan {existing_plans}"
+        super().save(*args, **kwargs)

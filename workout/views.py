@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from workout.models import Exercise, Workouts, WorkoutProgress, RoutineImprovement, BasketballDrill, BasketballWorkout, RealGameDrill, RealGameDrillWorkout
+from workout.models import Exercise, Workouts, WorkoutProgress, RoutineImprovement, BasketballDrill, BasketballWorkout, RealGameDrill, RealGameDrillWorkout, RecoveryExercise, RecoveryPlan
 from django.contrib.auth.models import User
 from user.models import player  
 from django.contrib import messages
 import random
 from datetime import date, datetime, timedelta
 from django.db.models import Avg, Max, Count
+from django.urls import reverse
 import calendar
 
 # Create your views here.
@@ -301,3 +302,29 @@ def progress_dashboard(request):
         'max_weight': max_weight,
         'last_week_progress': last_week_progress
     })
+
+def generate_recovery_plan(request):
+    if request.method == 'POST':
+        selected_exercises = random.sample(list(RecoveryExercise.objects.all()), 5)
+        
+        # Crear y guardar plan automáticamente con nombre y fecha
+        plan = RecoveryPlan.objects.create()
+        plan.exercises.set(selected_exercises)
+        
+        # Redirige pasando el ID como parámetro en la URL
+        return redirect(reverse('recovery_plan_history') + f'?new={plan.id}')
+    
+    return render(request, 'generate_recovery_plan.html')
+
+
+def recovery_plan_history(request):
+    new_plan_id = request.GET.get('new')
+    
+    if new_plan_id:
+        # Mostrar solo la rutina recién creada
+        plans = RecoveryPlan.objects.filter(id=new_plan_id)
+    else:
+        # Mostrar todas las rutinas
+        plans = RecoveryPlan.objects.all().order_by('-id')
+
+    return render(request, 'recovery_plan_history.html', {'plans': plans})
