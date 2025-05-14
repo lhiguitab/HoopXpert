@@ -66,26 +66,13 @@
       padding: 0 2rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       z-index: 10;
     }
 
-    .header-inner {
+    .header-actions {
       display: flex;
       align-items: center;
-      gap: 1rem;
-    }
-
-    .user-welcome {
-      font-weight: 600;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .user-welcome i {
-      color: var(--primary);
     }
 
     /* Sidebar Styles */
@@ -396,15 +383,6 @@
 
   <!-- Header -->
   <header>
-    <button class="mobile-menu-toggle d-none">
-      <i class="fas fa-bars"></i>
-    </button>
-    <div class="header-inner">
-      <div class="user-welcome">
-        <i class="fas fa-user-circle"></i>
-        <span>{{ username|upper }}</span>
-      </div>
-    </div>
     <div class="header-actions">
       <span class="text-muted fs-sm">{% now "l, F j, Y" %}</span>
     </div>
@@ -438,10 +416,14 @@
       // Show mobile menu toggle on small screens
       function updateMenuVisibility() {
         if (window.innerWidth <= 768) {
-          mobileMenuToggle.classList.remove('d-none');
+          if (mobileMenuToggle) {
+            mobileMenuToggle.classList.remove('d-none');
+          }
         } else {
-          mobileMenuToggle.classList.add('d-none');
-          sidebar.classList.remove('active');
+          if (mobileMenuToggle) {
+            mobileMenuToggle.classList.add('d-none');
+            sidebar.classList.remove('active');
+          }
         }
       }
       
