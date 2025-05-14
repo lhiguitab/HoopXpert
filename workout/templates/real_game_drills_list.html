@@ -5,21 +5,23 @@
 
 {% if workouts %}
     {% for workout in workouts %}
-    <div class="card">
-        <h3>{{ workout.name }}</h3>
-        <ul>
-        {% for drill in workout.exercises.all %}
-            <li>
+    <details class="card" style="margin-bottom: 15px;">
+        <summary style="font-weight: bold; font-size: 16px; cursor: pointer;">
+            {{ workout.name }}
+        </summary>
+        <ul style="margin-top: 10px;">
+        {% for drill in workout.drills.all %}
+            <li style="margin-bottom: 8px;">
                 <strong>{{ drill.title }}</strong> - {{ drill.duration_min }} min<br>
                 {{ drill.description }}<br>
                 {% if drill.youtube_link %}
                 🎥 <a href="{{ drill.youtube_link }}" target="_blank">Watch</a>
                 {% endif %}
+                <hr>
             </li>
-            <hr>
         {% endfor %}
         </ul>
-    </div>
+    </details>
     {% endfor %}
 {% else %}
     <p>No real game drill routines found.</p>
